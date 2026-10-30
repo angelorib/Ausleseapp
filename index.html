@@ -1,0 +1,2029 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Abo-Splitter">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<title>Abo-Splitter</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<!--ICONS-->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiI+CjxkZWZzPjxsaW5lYXJHcmFkaWVudCBpZD0iZyIgeDE9IjAiIHkxPSIwIiB4Mj0iMCIgeTI9IjEiPjxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0icmdiKDYwLCA5OCwgMTkyKSIvPjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0icmdiKDM0LCA2NCwgMTQwKSIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPgo8cmVjdCB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjExNiIgZmlsbD0idXJsKCNnKSIvPgo8cGF0aCBkPSJNMjQyIDI3NCBMMzUyLjg1IDIxMC4wMCBBMTI4IDEyOCAwIDEgMSAyNDIuMDAgMTQ2LjAwIFoiIGZpbGw9IiNmZmYiLz4KPHBhdGggZD0iTTI0MiAyNzQgTDI0Mi4wMCAxNDYuMDAgQTEyOCAxMjggMCAwIDEgMzUyLjg1IDIxMC4wMCBaIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxMy4wMCAtMjIuNTIpIiBmaWxsPSJyZ2IoOTUsIDIxMSwgMTQxKSIvPgo8L3N2Zz4=">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<meta name="theme-color" content="#2a4fa0">
+<!--/ICONS-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: Handy-App in einer schmalen Spalte. Hintergründe neutral (Weiss, im Dunkelmodus Schwarz).
+   Grün nur auf der Willkommensseite und auf den dunklen Kopfkarten. Rot und Grün bleiben für Kontostände. */
+:root {
+  --bg: #f6f7f8;
+  --surface: #ffffff;
+  --surface-2: #f0f2f4;
+  --ink: #0f1417;
+  --muted: #66707a;
+  --line: #e2e6ea;
+  --nav: #ffffff;
+  --hero: #12261f;
+  --hero-2: #21493d;
+  --hero-ink: #f0f7f4;
+  --hero-muted: #a8bdb7;
+  --accent: #1d6b58;
+  --mint: #9fe3c6;
+  --mint-ink: #0f3a2d;
+  --btn: #12201b;
+  --btn-ink: #ffffff;
+  --neg: #b4332c;
+  --neg-bg: #fbeceb;
+  --pos: #16723d;
+  --pos-bg: #e1f3e8;
+  --warn: #b5521d;
+  --warn-bg: #fdeee2;
+  --neg-hi: #ff9d94;
+  --pos-hi: #7fe0a6;
+  --font-ui: 'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #09090a;
+    --surface: #151517;
+    --surface-2: #1f1f22;
+    --ink: #f1f2f3;
+    --muted: #9aa1a8;
+    --line: #2a2a2e;
+    --nav: #000000;
+    --accent: #7fd9b6;
+    --btn: #9fe3c6;
+    --btn-ink: #0d2c22;
+    --neg: #ff8f86;
+    --neg-bg: #3a1e1d;
+    --pos: #66d392;
+    --pos-bg: #153122;
+    --warn: #ffb184;
+    --warn-bg: #3a281a;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #09090a;
+  --surface: #151517;
+  --surface-2: #1f1f22;
+  --ink: #f1f2f3;
+  --muted: #9aa1a8;
+  --line: #2a2a2e;
+  --nav: #000000;
+  --accent: #7fd9b6;
+  --btn: #9fe3c6;
+  --btn-ink: #0d2c22;
+  --neg: #ff8f86;
+  --neg-bg: #3a1e1d;
+  --pos: #66d392;
+  --pos-bg: #153122;
+  --warn: #ffb184;
+  --warn-bg: #3a281a;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-ui);
+  font-size: 15px;
+  line-height: 1.5;
+  padding-block: 22px 40px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+body.has-nav { padding-bottom: calc(110px + env(safe-area-inset-bottom, 0px)); }
+.wrap { max-width: 560px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
+h1, h2, h3, p { margin: 0; }
+h1 { font-size: 1.85rem; font-weight: 800; letter-spacing: -0.02em; text-wrap: balance; line-height: 1.15; }
+h2 { font-size: 1.05rem; font-weight: 700; }
+.muted { color: var(--muted); }
+.small { font-size: 0.85rem; }
+.tiny { font-size: 0.74rem; }
+.ico { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; flex: 0 0 auto; }
+.ico.fill { fill: currentColor; stroke: none; }
+
+.top { display: flex; gap: 12px; align-items: center; justify-content: space-between; }
+.top > div { min-width: 0; }
+.crumb { display: inline-flex; align-items: center; gap: 6px; margin-bottom: 6px; }
+.round-btn {
+  width: 40px; height: 40px; border-radius: 50%; border: 0; cursor: pointer; flex: 0 0 auto;
+  background: var(--btn); color: var(--btn-ink); display: grid; place-items: center;
+}
+.round-btn:hover { filter: brightness(1.15); }
+.sec { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+
+.btn {
+  font: inherit; font-weight: 600; font-size: 0.92rem;
+  min-height: 44px; padding: 8px 18px;
+  border-radius: 12px; border: 1px solid var(--line);
+  background: var(--surface); color: var(--ink); cursor: pointer;
+}
+.btn:hover { background: var(--surface-2); }
+.btn:disabled { opacity: 0.45; cursor: not-allowed; }
+.btn-primary { background: var(--btn); border-color: var(--btn); color: var(--btn-ink); }
+.btn-primary:hover { background: var(--btn); filter: brightness(1.15); }
+.btn-mint { background: var(--mint); border-color: var(--mint); color: var(--mint-ink); }
+.btn-mint:hover { background: var(--mint); filter: brightness(1.06); }
+.btn-block { width: 100%; min-height: 52px; border-radius: 14px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
+.btn-quiet { background: transparent; border-color: transparent; color: var(--muted); padding-inline: 8px; }
+.btn-danger { color: var(--neg); border-color: var(--neg); background: transparent; }
+.btn-sm { min-height: 38px; padding: 6px 14px; font-size: 0.86rem; border-radius: 10px; }
+a.btn, label.btn { display: inline-flex; align-items: center; text-decoration: none; }
+:is(.plain, .btn, .card, .round-btn, .navbtn, .frow, .pc, .tip, .swatch, .symbtn, input, select, textarea, summary, .seg button, .svc button, .hd-btn, .hd-pill, .mi):focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.pill { display: inline-block; font-size: 0.72rem; font-weight: 600; line-height: 1; padding: 6px 10px; border-radius: 999px; white-space: nowrap; }
+.pill-ok { background: var(--pos-bg); color: var(--pos); }
+.pill-wait { background: var(--warn-bg); color: var(--warn); }
+.pill-gray { background: var(--surface-2); color: var(--muted); border: 1px solid var(--line); }
+.pill-mint { background: var(--mint); color: var(--mint-ink); }
+.pill-dark { background: rgba(255,255,255,0.14); color: var(--hero-ink); }
+
+.num { font-variant-numeric: tabular-nums; font-weight: 700; }
+.neg { color: var(--neg); }
+.pos { color: var(--pos); }
+.zero { color: var(--muted); }
+
+.tile {
+  width: 48px; height: 48px; border-radius: 14px; flex: 0 0 auto; color: #fff; overflow: hidden;
+  display: grid; place-items: center; font-weight: 800; font-size: 1.02rem; letter-spacing: 0.01em;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.1);
+}
+.tile.lg { width: 70px; height: 70px; border-radius: 20px; font-size: 1.5rem; }
+.tile img { width: 100%; height: 100%; object-fit: contain; padding: 9%; display: block; }
+.tile .sym { width: 52%; height: 52%; stroke-width: 1.7; }
+.avatar {
+  width: 46px; height: 46px; border-radius: 50%; flex: 0 0 auto; color: #fff; overflow: hidden;
+  display: grid; place-items: center; font-weight: 700; font-size: 0.95rem;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.1);
+}
+.avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.plain { border: 0; padding: 0; background: none; cursor: pointer; border-radius: 50%; display: inline-flex; }
+.avatar.lgav { width: 70px; height: 70px; font-size: 1.3rem; }
+.avatar .ico { width: 55%; height: 55%; }
+.avatar.sm { width: 40px; height: 40px; }
+
+/* Übersicht */
+.hello { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.hello button.avatar { border: 0; padding: 0; cursor: pointer; }
+.hero-card {
+  background: linear-gradient(155deg, var(--hero-2), var(--hero));
+  color: var(--hero-ink); border-radius: 24px; padding: 18px;
+}
+.hero-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+.hero-k { color: var(--hero-muted); font-size: 0.9rem; }
+.hero-v { margin-top: 6px; font-size: 2rem; font-weight: 800; letter-spacing: -0.01em; font-variant-numeric: tabular-nums; }
+.hero-inner { margin-top: 14px; padding: 14px; border-radius: 16px; background: rgba(0,0,0,0.22); border: 1px solid rgba(255,255,255,0.1); }
+.hi-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.hi { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.hi small { display: block; color: var(--hero-muted); font-size: 0.74rem; }
+.hi b { display: block; font-size: 1.1rem; font-variant-numeric: tabular-nums; }
+.hico { width: 36px; height: 36px; border-radius: 12px; background: rgba(255,255,255,0.12); display: grid; place-items: center; flex: 0 0 auto; }
+.hico.ok { background: var(--mint); color: var(--mint-ink); border-radius: 50%; }
+.bar { height: 6px; border-radius: 999px; background: rgba(255,255,255,0.16); overflow: hidden; margin-top: 12px; }
+.bar i { display: block; height: 100%; background: var(--mint); border-radius: 999px; }
+.hi-foot { margin-top: 8px; text-align: right; font-size: 0.78rem; color: var(--hero-muted); font-variant-numeric: tabular-nums; }
+.hi-foot .neg { color: var(--neg-hi); }
+.hi-foot .pos { color: var(--pos-hi); }
+
+.list { display: flex; flex-direction: column; gap: 10px; }
+.card {
+  font: inherit; color: inherit; text-align: left; cursor: pointer; width: 100%;
+  display: grid; grid-template-columns: auto minmax(0, 1fr) auto auto; align-items: center; gap: 12px;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 14px;
+}
+.card:hover { border-color: var(--accent); }
+.card .main { min-width: 0; display: flex; flex-direction: column; gap: 1px; }
+.card .main strong { font-weight: 700; overflow-wrap: anywhere; }
+.card .side { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+.card .chev { color: var(--muted); }
+.inl { display: inline-flex; align-items: center; gap: 5px; }
+.inl .ico { width: 14px; height: 14px; }
+
+/* Abo-Detail */
+.hd {
+  background: linear-gradient(155deg, var(--hero-2), var(--hero));
+  color: var(--hero-ink); border-radius: 26px; padding: 14px 18px 56px;
+  display: flex; flex-direction: column; gap: 18px; position: relative;
+}
+.hd-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; position: relative; }
+.hd-btn { width: 42px; height: 42px; border-radius: 50%; border: 0; cursor: pointer; background: rgba(255,255,255,0.13); color: inherit; display: grid; place-items: center; }
+.hd-btn:hover { background: rgba(255,255,255,0.2); }
+.hd-main { display: flex; align-items: center; gap: 14px; }
+.hd-main > div { min-width: 0; }
+.hd h1 { font-size: 1.6rem; overflow-wrap: anywhere; }
+.hd-sub { color: var(--hero-muted); font-size: 0.9rem; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.menu {
+  position: absolute; right: 0; top: 48px; z-index: 10; min-width: 220px; padding: 6px;
+  background: var(--surface); color: var(--ink); border: 1px solid var(--line); border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25); display: flex; flex-direction: column;
+}
+.mi { font: inherit; text-align: left; background: transparent; border: 0; color: inherit; cursor: pointer; padding: 11px 12px; border-radius: 10px; font-weight: 600; font-size: 0.92rem; }
+.mi:hover { background: var(--surface-2); }
+.mi.danger { color: var(--neg); }
+.sheetcard {
+  margin-top: -40px; position: relative; background: var(--surface); border: 1px solid var(--line); border-radius: 22px; padding: 16px;
+  display: flex; justify-content: space-between; align-items: flex-start; gap: 12px 16px; flex-wrap: wrap;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+}
+.sheetcard .k { margin-bottom: 4px; }
+.sheetcard .v { margin-top: 0; font-size: 1.5rem; }
+.sheetcard .v small { font-size: 0.85rem; font-weight: 600; color: var(--muted); }
+.sheetcard .r { text-align: right; }
+.sheetcard .r .v { font-size: 1.1rem; display: inline-flex; align-items: center; gap: 6px; }
+.facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.fact { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 12px; min-width: 0; }
+.k { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); font-weight: 600; }
+.v { font-variant-numeric: tabular-nums; font-size: 1.1rem; font-weight: 800; margin-top: 3px; overflow-wrap: anywhere; }
+
+.strip { display: flex; gap: 10px; overflow-x: auto; padding: 2px 2px 10px; scroll-snap-type: x proximity; -webkit-overflow-scrolling: touch; }
+.pc {
+  font: inherit; color: inherit; cursor: pointer; scroll-snap-align: start; flex: 0 0 104px;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 12px 8px;
+  display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center; font-size: 0.85rem;
+}
+.pc[aria-pressed="true"] { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent); }
+.pc .pcn { font-weight: 700; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.avwrap { position: relative; display: inline-flex; }
+.dot { position: absolute; right: -1px; bottom: -1px; width: 12px; height: 12px; border-radius: 50%; border: 2px solid var(--surface); background: var(--pos); }
+.dot.warn { background: #f08c3a; }
+
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; overflow: hidden; }
+.pad { padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+.pline { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+.big { display: inline-block; font-variant-numeric: tabular-nums; font-size: 1.15rem; font-weight: 800; padding: 3px 10px; border-radius: 10px; }
+.big.neg { background: var(--neg-bg); }
+.big.pos { background: var(--pos-bg); }
+.big.zero { background: var(--surface-2); }
+.act { display: flex; flex-wrap: wrap; gap: 6px; }
+.payform { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; background: var(--surface-2); border-radius: 12px; padding: 10px; }
+.payform .inp { flex: 1 1 140px; min-width: 0; }
+
+.people { list-style: none; margin: 0; padding: 0; }
+.people > li { border-top: 1px solid var(--line); padding: 14px 16px; display: flex; flex-wrap: wrap; align-items: center; gap: 10px 12px; }
+.people > li:first-child { border-top: 0; }
+.who { flex: 1 1 130px; min-width: 0; }
+.who strong { font-weight: 700; overflow-wrap: anywhere; }
+.right { flex: 0 0 auto; display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+
+.tl { list-style: none; margin: 0; padding: 4px 16px 8px; }
+.tli { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 8px 12px; padding: 12px 0; position: relative; }
+.tli + .tli { border-top: 0; }
+.tic { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; flex: 0 0 auto; background: var(--pos); color: #fff; position: relative; z-index: 1; }
+.tic.wait { background: #f08c3a; }
+.tic .ico { width: 16px; height: 16px; stroke-width: 2.4; }
+.tli:not(:last-child)::before { content: ""; position: absolute; left: 13px; top: 40px; bottom: -12px; width: 2px; background: var(--line); }
+.tli .confirm { flex: 1 1 100%; }
+
+.confirm { border: 1px solid var(--accent); border-radius: 14px; padding: 14px 16px; display: flex; flex-direction: column; gap: 10px; background: var(--surface); }
+.confirm.danger { border-color: var(--neg); }
+.row { display: flex; flex-wrap: wrap; gap: 8px; }
+.sec-title { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+
+.inp {
+  font: inherit; color: var(--ink); background: var(--surface);
+  border: 1px solid var(--line); border-radius: 12px; padding: 10px 14px; min-height: 46px; width: 100%;
+}
+.inp::placeholder { color: var(--muted); opacity: 0.8; }
+textarea.inp { font-family: var(--font-mono); font-size: 0.82rem; resize: vertical; }
+.search { position: relative; }
+.search .ico { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--muted); width: 18px; height: 18px; }
+.search .inp { padding-left: 42px; }
+.svc { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.svc button {
+  font: inherit; color: inherit; cursor: pointer; background: var(--surface); border: 1px solid var(--line); border-radius: 16px;
+  padding: 12px 6px; display: flex; flex-direction: column; align-items: center; gap: 8px; font-size: 0.8rem; text-align: center; overflow-wrap: anywhere;
+}
+.svc button:hover { border-color: var(--accent); }
+.form { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 18px; display: flex; flex-direction: column; gap: 18px; }
+.fields { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; }
+.field { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.field > label, .field > .lbl { font-size: 0.85rem; font-weight: 600; }
+.logoed { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.symgrid, .swatches { display: flex; flex-wrap: wrap; gap: 8px; }
+.symbtn { width: 44px; height: 44px; border-radius: 12px; border: 1px solid var(--line); background: var(--surface-2); color: var(--ink); display: grid; place-items: center; cursor: pointer; }
+.symbtn[aria-pressed="true"] { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent); }
+.swatch { width: 34px; height: 34px; border-radius: 50%; border: 2px solid var(--surface); box-shadow: 0 0 0 1px var(--line); cursor: pointer; padding: 0; }
+.swatch[aria-pressed="true"] { box-shadow: 0 0 0 2px var(--accent); }
+.stepper { display: grid; grid-template-columns: 46px minmax(0, 1fr) 46px; gap: 8px; }
+.stepper .inp { text-align: center; font-weight: 700; }
+.stepper .btn { padding: 0; font-size: 1.2rem; }
+.prow { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; padding: 12px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface-2); }
+.prow .inp { flex: 1 1 180px; min-width: 0; width: auto; }
+.prow select.inp { flex: 1 1 100%; }
+.chk { display: inline-flex; align-items: center; gap: 8px; font-size: 0.9rem; flex: 0 1 auto; }
+.chk input { width: 18px; height: 18px; accent-color: var(--accent); margin: 0; flex: 0 0 auto; }
+.share-line { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: 0.85rem; padding: 10px 12px; background: var(--surface-2); border-radius: 12px; white-space: pre-line; }
+.error { color: var(--neg); font-weight: 600; min-height: 1.2em; }
+
+details.log { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; overflow: hidden; }
+details.log summary { cursor: pointer; padding: 14px 16px; font-weight: 700; }
+.loglist { list-style: none; margin: 0; padding: 0 16px 8px; }
+.loglist li { display: flex; flex-wrap: wrap; gap: 2px 14px; padding: 8px 0; border-top: 1px solid var(--line); }
+.loglist time { color: var(--muted); font-size: 0.8rem; flex: 0 0 auto; font-variant-numeric: tabular-nums; }
+
+/* Freunde, Zahlungen, Profil */
+.seg { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 4px; background: var(--surface-2); border-radius: 14px; padding: 4px; }
+.seg button { font: inherit; font-weight: 600; font-size: 0.88rem; border: 0; border-radius: 10px; padding: 10px 6px; cursor: pointer; background: transparent; color: var(--muted); }
+.seg button[aria-selected="true"] { background: var(--btn); color: var(--btn-ink); }
+.seg.small { display: inline-grid; grid-auto-columns: auto; }
+.seg.small button { padding: 8px 14px; font-size: 0.82rem; }
+.frow { font: inherit; color: inherit; text-align: left; width: 100%; background: transparent; border: 0; cursor: pointer; padding: 14px 16px; display: flex; align-items: center; gap: 12px; }
+.frow .who { flex: 1 1 auto; }
+.fsubs { list-style: none; margin: 0; padding: 0 16px 14px 74px; display: flex; flex-direction: column; gap: 8px; }
+.fsubs li { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; justify-content: space-between; }
+.aps { list-style: none; margin: 0; padding: 0; }
+.aps li { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 6px 12px; padding: 12px 14px; border-top: 1px solid var(--line); }
+.aps li:first-child { border-top: 0; }
+.aps .pbar { grid-column: 2; height: 5px; border-radius: 999px; background: var(--surface-2); overflow: hidden; }
+.aps .pbar i { display: block; height: 100%; background: var(--accent); border-radius: 999px; }
+.aps .tile { grid-row: span 2; }
+.tip { font: inherit; color: inherit; text-align: left; cursor: pointer; width: 100%; display: flex; align-items: center; gap: 12px; padding: 14px; border-radius: 16px; border: 0; background: var(--pos-bg); }
+.tip .ico { color: var(--pos); }
+.tip b { display: block; }
+.empty { background: var(--surface); border: 1px dashed var(--line); border-radius: 18px; padding: 28px 20px; display: flex; flex-direction: column; gap: 12px; align-items: flex-start; }
+.brandrow { display: flex; align-items: center; gap: 14px; padding: 16px; }
+.brandrow svg { width: 54px; height: 54px; border-radius: 14px; flex: 0 0 auto; }
+.block { padding: 16px; display: flex; flex-direction: column; gap: 10px; border-top: 1px solid var(--line); }
+
+.welcome {
+  background: linear-gradient(160deg, #21493d, #12261f 60%); color: #f0f7f4;
+  border-radius: 28px; padding: 28px 22px 22px; min-height: min(700px, calc(100dvh - 60px));
+  display: flex; flex-direction: column; justify-content: space-between; gap: 28px;
+}
+.welcome .w-mid { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 16px; }
+.welcome svg.group { width: 64px; height: 64px; }
+.welcome h1 { font-size: 2rem; color: #f0f7f4; }
+.welcome h1 span { color: #9fe3c6; }
+.welcome p { color: #a8bdb7; max-width: 30ch; }
+
+#nav {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 20;
+  background: var(--nav); border-top: 1px solid var(--line);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+.navin {
+  max-width: 560px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr);
+  padding: 6px max(8px, env(safe-area-inset-left, 0px)) 6px max(8px, env(safe-area-inset-right, 0px));
+}
+.navbtn {
+  font: inherit; background: transparent; border: 0; cursor: pointer; color: var(--muted);
+  display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 4px; font-size: 0.72rem; font-weight: 600; border-radius: 12px;
+}
+.navbtn[aria-current="page"] { color: var(--accent); }
+
+#toast {
+  position: fixed; left: 50%; transform: translateX(-50%);
+  bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+  background: var(--ink); color: var(--bg); padding: 10px 16px; border-radius: 12px;
+  font-size: 0.9rem; opacity: 0; pointer-events: none; transition: opacity 0.2s; max-width: calc(100% - 32px); z-index: 30;
+}
+body.has-nav #toast { bottom: calc(92px + env(safe-area-inset-bottom, 0px)); }
+#toast.show { opacity: 1; }
+@media (prefers-reduced-motion: reduce) { #toast { transition: none; } }
+</style>
+</head>
+<body>
+
+<div class="wrap" id="app"></div>
+<nav id="nav" aria-label="Hauptnavigation" hidden></nav>
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script>
+// LOGIC-START
+const CURRENCY = 'CHF';
+const PERIODS = {
+  daily:   { label: 'Täglich',     unit: 'Tag',   per: 'pro Tag' },
+  weekly:  { label: 'Wöchentlich', unit: 'Woche', per: 'pro Woche' },
+  monthly: { label: 'Monatlich',   unit: 'Monat', per: 'pro Monat' },
+  yearly:  { label: 'Jährlich',    unit: 'Jahr',  per: 'pro Jahr' }
+};
+const nf = new Intl.NumberFormat('de-CH', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+function money(c) { return nf.format(Math.abs(c) / 100) + ' ' + CURRENCY; }
+function signed(c) { return c === 0 ? money(0) : (c > 0 ? '+' : '−') + money(c); }
+function tone(c) { return c < 0 ? 'neg' : c > 0 ? 'pos' : 'zero'; }
+function uid() { return Math.random().toString(36).slice(2, 9) + Date.now().toString(36).slice(-3); }
+function parseCents(s) {
+  const v = String(s).trim().replace(/[’'\s]/g, '').replace(',', '.');
+  if (!/^\d+(\.\d{1,2})?$/.test(v)) return NaN;
+  return Math.round(parseFloat(v) * 100);
+}
+
+// Datum als Text "JJJJ-MM-TT", gerechnet in UTC, damit Zeitzonen nichts verschieben.
+function parseISO(s) { const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(s || ''); return m ? { y: +m[1], m: +m[2] - 1, d: +m[3] } : null; }
+function toISO(y, m, d) { return y + '-' + String(m + 1).padStart(2, '0') + '-' + String(d).padStart(2, '0'); }
+function daysInMonth(y, m) { return new Date(Date.UTC(y, m + 1, 0)).getUTCDate(); }
+function isoPlusDays(iso, n) {
+  const p = parseISO(iso), dt = new Date(Date.UTC(p.y, p.m, p.d + n));
+  return toISO(dt.getUTCFullYear(), dt.getUTCMonth(), dt.getUTCDate());
+}
+function todayISO() { const t = new Date(); return toISO(t.getFullYear(), t.getMonth(), t.getDate()); }
+function daysBetween(a, b) {
+  const x = parseISO(a), y = parseISO(b);
+  return Math.round((Date.UTC(y.y, y.m, y.d) - Date.UTC(x.y, x.m, x.d)) / 86400000);
+}
+function fmtDay(iso) {
+  const p = parseISO(iso);
+  return p ? new Date(Date.UTC(p.y, p.m, p.d)).toLocaleDateString('de-CH', { timeZone: 'UTC', weekday: 'short', day: '2-digit', month: '2-digit', year: 'numeric' }) : '';
+}
+function relDays(iso) {
+  const n = daysBetween(todayISO(), iso);
+  return n === 0 ? 'heute' : n === 1 ? 'morgen' : n === -1 ? 'gestern' : n > 1 ? 'in ' + n + ' Tagen' : 'vor ' + (-n) + ' Tagen';
+}
+// Nächstes Datum je Periode. Bei Monat und Jahr bleibt der ursprüngliche Tag erhalten (31. wird im Februar der 28.).
+function nextChargeDate(iso, period, anchorDay) {
+  const p = parseISO(iso);
+  if (!p) return '';
+  if (period === 'daily') return isoPlusDays(iso, 1);
+  if (period === 'weekly') return isoPlusDays(iso, 7);
+  let y = p.y, m = p.m;
+  if (period === 'monthly') { m += 1; if (m > 11) { m = 0; y += 1; } } else { y += 1; }
+  return toISO(y, m, Math.min(anchorDay || p.d, daysInMonth(y, m)));
+}
+// Wie viele Abbuchungen (inklusive dem Startdatum selbst) liegen bis heute? Und wann ist die nächste?
+function periodsUntil(start, period, today) {
+  const p = parseISO(start);
+  if (!p) return { n: 0, next: '' };
+  let d = start, n = 0;
+  while (d <= today && n < 40000) { n++; d = nextChargeDate(d, period, p.d); }
+  return { n, next: d };
+}
+function setChargeDate(sub, iso) {
+  const p = parseISO(iso);
+  sub.chargeDate = p ? iso : '';
+  sub.anchorDay = p ? p.d : 0;
+  sub.log.unshift({ t: Date.now(), text: p ? 'Abbuchung auf ' + fmtDay(iso) + ' gesetzt' : 'Abbuchungsdatum entfernt' });
+}
+
+// Beträge werden in Rappen (ganze Zahlen) geführt, damit nichts durch Kommazahlen driftet.
+function shareOf(sub) { return Math.round(sub.totalCents / sub.people.length); }
+// Ohne eigenes Konto: das eigene Profil, und Personen, deren Anteil jemand anderes bezahlt.
+function isFree(p) { return !!p.isMe || !!p.sponsor; }
+function coveredBy(sub, p) { return sub.people.filter(x => x.sponsor === p.id && !x.isMe); }
+// Was eine Person pro Periode zahlen muss: der eigene Anteil plus die übernommenen Anteile.
+function chargeFor(sub, p) { return isFree(p) ? 0 : shareOf(sub) * (1 + coveredBy(sub, p).length); }
+// Übernahme nur durch eine Person mit eigenem Konto, die selbst nicht übernommen wird. idProp: 'id' oder 'key' (Formular).
+function normalizeSponsors(people, idProp) {
+  idProp = idProp || 'id';
+  const by = new Map(people.map(p => [p[idProp], p]));
+  people.forEach(p => {
+    if (p.isMe) { p.sponsor = ''; return; }
+    const s = p.sponsor ? by.get(p.sponsor) : null;
+    if (!s || s === p || s.isMe) p.sponsor = '';
+  });
+  people.forEach(p => {
+    if (p.sponsor) { const s = by.get(p.sponsor); if (s && s.sponsor) p.sponsor = ''; }
+  });
+}
+
+// o.people: [{ key, name, email, isMe, sponsor (= key der übernehmenden Person) }]
+// Liegt das Startdatum in der Vergangenheit, werden alle seither fälligen Perioden sofort berechnet.
+function createSub(o, today) {
+  today = today || todayISO();
+  const share = Math.round(o.totalCents / o.people.length);
+  const sd = parseISO(o.startDate) ? o.startDate : today;
+  const per = periodsUntil(sd, o.period, today);
+  const ids = new Map();
+  const people = o.people.map((p, i) => {
+    const id = uid();
+    ids.set(p.key || ('i' + i), id);
+    return { id, name: p.name, email: p.email || '', phone: p.phone || '', channel: p.channel || '', isMe: !!p.isMe, sponsor: '', balance: 0, paid: 0 };
+  });
+  o.people.forEach((p, i) => { people[i].sponsor = ids.get(p.sponsor) || ''; });
+  normalizeSponsors(people);
+  const sub = {
+    id: uid(), name: o.name, period: o.period, totalCents: o.totalCents, periodNo: per.n, created: Date.now(),
+    startDate: sd, chargeDate: per.next, anchorDay: parseISO(sd).d, auto: o.auto !== false,
+    payments: [], people, log: [],
+    logo: o.logo || '', symbol: o.symbol || '', color: o.color || ''
+  };
+  people.forEach(p => { p.balance = (-per.n * chargeFor(sub, p)) || 0; });
+  sub.log.push({
+    t: Date.now(),
+    text: 'Abo angelegt. Anteil pro Person: ' + money(share) +
+      (per.n > 1 ? '. ' + per.n + ' Perioden seit ' + fmtDay(sd) + ' berechnet.' : per.n === 0 ? '. Start am ' + fmtDay(sd) + '.' : '.')
+  });
+  return sub;
+}
+
+function addPayment(sub, personId, cents) {
+  const p = sub.people.find(x => x.id === personId);
+  if (!p || isFree(p) || !(cents > 0)) return false;
+  p.balance += cents;
+  p.paid += cents;
+  sub.payments = sub.payments || [];
+  sub.payments.unshift({ id: uid(), pid: p.id, name: p.name, cents, t: Date.now(), periodNo: sub.periodNo });
+  sub.payments.length = Math.min(sub.payments.length, 1000);
+  sub.log.unshift({ t: Date.now(), text: 'Zahlung von ' + p.name + ': ' + money(cents) });
+  sub.log.length = Math.min(sub.log.length, 200);
+  return true;
+}
+// Macht eine erfasste Zahlung rückgängig (z. B. nach einem Tippfehler).
+function undoPayment(sub, payId) {
+  const list = sub.payments || [];
+  const i = list.findIndex(x => x.id === payId);
+  if (i < 0) return false;
+  const pay = list[i];
+  const p = sub.people.find(x => x.id === pay.pid);
+  if (p) {
+    p.balance -= pay.cents;
+    if (pay.periodNo === sub.periodNo) p.paid = Math.max(0, p.paid - pay.cents);
+  }
+  list.splice(i, 1);
+  sub.log.unshift({ t: Date.now(), text: 'Zahlung von ' + pay.name + ' über ' + money(pay.cents) + ' rückgängig gemacht' });
+  sub.log.length = Math.min(sub.log.length, 200);
+  return true;
+}
+function startNextPeriod(sub, autoDue) {
+  const share = shareOf(sub);
+  sub.people.forEach(p => { p.paid = 0; p.balance -= chargeFor(sub, p); });
+  sub.periodNo += 1;
+  let extra = '';
+  if (sub.chargeDate) {
+    sub.chargeDate = nextChargeDate(sub.chargeDate, sub.period, sub.anchorDay);
+    extra = ' Nächste Abbuchung: ' + fmtDay(sub.chargeDate) + '.';
+  }
+  sub.log.unshift({ t: Date.now(), text: (autoDue ? 'Automatisch zum Abbuchungsdatum ' + fmtDay(autoDue) + ': ' : '') + sub.periodNo + '. ' + PERIODS[sub.period].unit + ' gestartet. Anteil ' + money(share) + ' abgezogen.' + extra });
+  sub.log.length = Math.min(sub.log.length, 200);
+}
+// Automatischer Periodenwechsel: Ist das Abbuchungsdatum erreicht oder vorbei, startet die nächste Periode von selbst.
+// Wurde die App mehrere Perioden lang nicht geöffnet, werden alle verpassten Wechsel der Reihe nach nachgeholt.
+function autoRollSub(sub, today) {
+  if (sub.auto === false || !sub.chargeDate) return 0;
+  let n = 0;
+  while (sub.chargeDate && sub.chargeDate <= today && n < 3700) {
+    startNextPeriod(sub, sub.chargeDate);
+    n++;
+  }
+  return n;
+}
+
+// Abo bearbeiten. e.applyCurrent = true: Kontostände werden so korrigiert, als hätte die neue Einstellung
+// schon in dieser Periode gegolten (für Tippfehler). false: Betrag und Personen gelten erst ab der nächsten Periode.
+// e.people: [{ id (nur bei bestehenden), key, name, email, isMe, sponsor (= key) }]
+function applyEdit(sub, e, today) {
+  today = today || todayISO();
+  const notes = [];
+  const oldShare = shareOf(sub);
+  const before = new Map(sub.people.map(p => [p.id, { free: isFree(p), me: !!p.isMe, charge: chargeFor(sub, p), balance: p.balance }]));
+  const byId = new Map(sub.people.map(p => [p.id, p]));
+  const keep = new Set(e.people.filter(p => p.id).map(p => p.id));
+  if (sub.name !== e.name) { notes.push('Name: ' + sub.name + ' → ' + e.name); sub.name = e.name; }
+  if (sub.period !== e.period) { notes.push('Periode: ' + PERIODS[sub.period].label + ' → ' + PERIODS[e.period].label); sub.period = e.period; }
+  if (sub.totalCents !== e.totalCents) { notes.push('Betrag: ' + money(sub.totalCents) + ' → ' + money(e.totalCents)); sub.totalCents = e.totalCents; }
+  sub.people.filter(p => !keep.has(p.id)).forEach(p => {
+    notes.push(p.name + ' entfernt' + (!isFree(p) && p.balance !== 0 ? ' (Kontostand ' + signed(p.balance) + ' verworfen)' : ''));
+  });
+  sub.payments = (sub.payments || []).filter(x => keep.has(x.pid));
+
+  const keyToId = new Map();
+  const next = e.people.map((ep, i) => {
+    let p = ep.id ? byId.get(ep.id) : null;
+    if (p) {
+      if (p.name !== ep.name) { notes.push('Name: ' + p.name + ' → ' + ep.name); p.name = ep.name; }
+      if ((p.email || '') !== (ep.email || '')) notes.push('E-Mail von ' + p.name + ' geändert');
+      p.email = ep.email || '';
+      if ((p.phone || '') !== (ep.phone || '')) notes.push('Telefonnummer von ' + p.name + ' geändert');
+      p.phone = ep.phone || ''; p.channel = ep.channel || '';
+    } else {
+      p = { id: uid(), name: ep.name, email: ep.email || '', phone: ep.phone || '', channel: ep.channel || '', isMe: false, sponsor: '', balance: 0, paid: 0, isNew: true };
+      notes.push(ep.name + ' hinzugefügt');
+    }
+    keyToId.set(ep.key || ep.id || ('i' + i), p.id);
+    p.isMe = !!ep.isMe;
+    return p;
+  });
+  e.people.forEach((ep, i) => { next[i].sponsor = keyToId.get(ep.sponsor) || ''; });
+  normalizeSponsors(next);
+  sub.people = next;
+  const nm = new Map(next.map(p => [p.id, p]));
+
+  // Wer bisher ein eigenes Konto hatte und jetzt von jemandem übernommen wird: Stand und Zahlungen wandern mit.
+  const extra = new Map();
+  next.forEach(p => {
+    const b = before.get(p.id);
+    if (!b) return;
+    if (!b.me && p.isMe) notes.push(p.name + ' ist jetzt dein Profil' + (!b.free && b.balance ? ' (Kontostand ' + signed(b.balance) + ' verworfen)' : ''));
+    if (b.me && !p.isMe) notes.push(p.name + ' ist nicht mehr dein Profil');
+    if (p.sponsor && !b.free) {
+      const s = nm.get(p.sponsor);
+      s.balance += p.balance;
+      s.paid += p.paid;
+      sub.payments.forEach(x => { if (x.pid === p.id) x.pid = s.id; });
+      extra.set(s.id, (extra.get(s.id) || 0) + b.charge);
+      notes.push(p.name + ': Anteil bezahlt jetzt ' + s.name);
+      p.balance = 0; p.paid = 0;
+    } else if (!p.sponsor && b.free && !b.me && !p.isMe) {
+      notes.push(p.name + ' zahlt den Anteil wieder selbst');
+    }
+  });
+  const newShare = shareOf(sub);
+  next.forEach(p => {
+    const b = before.get(p.id);
+    if (isFree(p)) { p.balance = 0; p.paid = 0; delete p.isNew; return; }
+    const oldCharge = (b && !b.free ? b.charge : 0) + (extra.get(p.id) || 0);
+    if (e.applyCurrent) p.balance += oldCharge - chargeFor(sub, p);
+    delete p.isNew;
+  });
+  if (oldShare !== newShare) {
+    notes.push('Anteil pro Person ' + money(oldShare) + ' → ' + money(newShare) + (e.applyCurrent ? ', aktuelle Periode angepasst' : ', gilt ab der nächsten Periode'));
+  }
+  if (e.auto !== undefined && (sub.auto !== false) !== !!e.auto) {
+    sub.auto = !!e.auto;
+    notes.push('Automatischer Periodenwechsel ' + (sub.auto ? 'eingeschaltet' : 'ausgeschaltet'));
+  }
+
+  if (e.logo !== undefined || e.symbol !== undefined || e.color !== undefined) {
+    const nl = e.logo !== undefined ? e.logo : (sub.logo || '');
+    const ns = e.symbol !== undefined ? e.symbol : (sub.symbol || '');
+    const nc = e.color !== undefined ? e.color : (sub.color || '');
+    if (nl !== (sub.logo || '') || ns !== (sub.symbol || '') || nc !== (sub.color || '')) notes.push('Logo oder Farbe geändert');
+    sub.logo = nl; sub.symbol = ns; sub.color = nc;
+  }
+
+  // Startdatum geändert: Anzahl der Perioden neu berechnen, Kontostände um die Differenz anpassen.
+  let startChanged = false;
+  if (e.startDate !== undefined && parseISO(e.startDate) && e.startDate !== (sub.startDate || '')) {
+    const per = periodsUntil(e.startDate, sub.period, today);
+    const delta = per.n - sub.periodNo;
+    if (delta) sub.people.forEach(p => { if (!isFree(p)) p.balance -= delta * chargeFor(sub, p); });
+    notes.push('Startdatum ' + fmtDay(e.startDate) + ': ' + per.n + ' Perioden berechnet' + (delta ? ' (' + (delta > 0 ? '+' : '') + delta + ')' : ''));
+    sub.startDate = e.startDate; sub.periodNo = per.n; sub.chargeDate = per.next; sub.anchorDay = parseISO(e.startDate).d;
+    startChanged = true;
+  }
+  const dateChanged = !startChanged && e.chargeDate !== undefined && (e.chargeDate || '') !== (sub.chargeDate || '');
+  if (dateChanged) setChargeDate(sub, e.chargeDate || '');
+  if (notes.length) {
+    sub.log.unshift({ t: Date.now(), text: 'Abo bearbeitet: ' + notes.join('; ') });
+    sub.log.length = Math.min(sub.log.length, 200);
+  }
+  return notes.length > 0 || dateChanged || startChanged;
+}
+
+// Vorbereitete Nachricht mit dem aktuellen Kontostand einer Person.
+function balanceMessage(sub, p) {
+  const per = PERIODS[sub.period];
+  const covered = coveredBy(sub, p).map(x => x.name);
+  const state = p.balance < 0 ? 'Noch offen: ' + money(p.balance) + '. Bitte überweise den Betrag.'
+    : p.balance > 0 ? 'Guthaben: ' + money(p.balance) + '. Das wird mit der nächsten Periode verrechnet.'
+    : 'Alles ausgeglichen.';
+  const lines = [
+    'Hallo ' + p.name + ',', '',
+    'hier dein aktueller Kontostand für "' + sub.name + '" (' + per.label.toLowerCase() + ' ' + money(sub.totalCents) + ', dein Anteil ' + money(chargeFor(sub, p)) + (covered.length ? ', inkl. Anteil für ' + covered.join(', ') : '') + '):', '',
+    'Kontostand: ' + signed(p.balance), state
+  ];
+  if (sub.chargeDate) lines.push('', 'Nächste Abbuchung: ' + fmtDay(sub.chargeDate));
+  lines.push('', 'Danke dir!');
+  return { subject: 'Kontostand ' + sub.name + ', ' + sub.periodNo + '. ' + per.unit, body: lines.join('\n') };
+}
+function summary(sub) {
+  let owed = 0, credit = 0, settled = 0;
+  const ext = sub.people.filter(p => !isFree(p));
+  ext.forEach(p => {
+    if (p.balance < 0) owed += -p.balance; else { settled++; if (p.balance > 0) credit += p.balance; }
+  });
+  return { owed, credit, settled, extCount: ext.length, share: shareOf(sub) };
+}
+
+// Auf einen Monat umgerechnete Kosten (für die Gesamtsumme in der Übersicht).
+function monthlyCents(sub) {
+  const t = sub.totalCents;
+  return Math.round(sub.period === 'daily' ? t * 365 / 12 : sub.period === 'weekly' ? t * 52 / 12 : sub.period === 'yearly' ? t / 12 : t);
+}
+// Alle Personen über alle Abos hinweg, nach Name zusammengefasst. Das eigene Profil zählt nicht als Freund.
+function friendsOverview(subs) {
+  const map = new Map();
+  subs.forEach(s => s.people.forEach(p => {
+    const key = p.name.trim().toLowerCase();
+    let f = map.get(key);
+    if (!f) { f = { key, name: p.name.trim(), subs: [], balance: 0, monthly: 0, hasAccount: false, onlyMine: true }; map.set(key, f); }
+    if (!p.isMe) f.onlyMine = false;
+    const sp = p.sponsor ? s.people.find(x => x.id === p.sponsor) : null;
+    f.subs.push({ subId: s.id, subName: s.name, balance: p.balance, free: isFree(p), me: !!p.isMe, via: sp ? sp.name : '' });
+    if (!isFree(p)) {
+      f.balance += p.balance; f.hasAccount = true;
+      f.monthly += Math.round(monthlyCents(s) * (1 + coveredBy(s, p).length) / s.people.length);
+    }
+  }));
+  return [...map.values()].filter(f => !f.onlyMine).sort((a, b) => (a.balance - b.balance) || a.name.localeCompare(b.name, 'de'));
+}
+// Zahlungsliste über alle Abos: offene Beträge zuerst, dann erfasste Zahlungen, neueste oben.
+function txItems(subs, filter) {
+  const outs = [], ins = [];
+  subs.forEach(s => {
+    if (filter !== 'out') (s.payments || []).forEach(x => ins.push({ kind: 'in', t: x.t, sub: s, name: x.name, cents: x.cents, periodNo: x.periodNo }));
+    if (filter !== 'in') s.people.forEach(p => { if (!isFree(p) && p.balance < 0) outs.push({ kind: 'out', t: 0, sub: s, name: p.name, cents: -p.balance, periodNo: s.periodNo }); });
+  });
+  outs.sort((a, b) => b.cents - a.cents);
+  ins.sort((a, b) => b.t - a.t);
+  return outs.concat(ins);
+}
+function validState(o) {
+  return !!(o && Array.isArray(o.subs) && o.subs.every(s => s && typeof s.id === 'string' && typeof s.name === 'string' &&
+    typeof s.totalCents === 'number' && PERIODS[s.period] && Array.isArray(s.people) && s.people.length >= 2 &&
+    s.people.every(p => p && typeof p.id === 'string' && typeof p.name === 'string' && typeof p.balance === 'number')));
+}
+
+// Zahlen für die Übersicht: Kosten pro Monat, mein eigener Anteil, bereits bezahlt, noch offen.
+function overview(subs) {
+  const o = { monthly: 0, mine: 0, paid: 0, owed: 0, credit: 0, active: 0 };
+  subs.forEach(s => {
+    const m = summary(s), mc = monthlyCents(s);
+    o.monthly += mc;
+    o.mine += Math.round(mc * s.people.filter(p => p.isMe).length / s.people.length);
+    s.people.forEach(p => { if (!isFree(p)) o.paid += p.paid || 0; });
+    o.owed += m.owed; o.credit += m.credit;
+    if (s.periodNo > 0) o.active++;
+  });
+  o.pct = (o.paid + o.owed) > 0 ? Math.max(0, Math.min(100, Math.round(o.paid * 100 / (o.paid + o.owed)))) : 100;
+  return o;
+}
+// Fortschritt eines einzelnen Abos: Anteil der bereits bezahlten Beträge.
+function subProgress(sub) {
+  const m = summary(sub);
+  let paid = 0;
+  sub.people.forEach(p => { if (!isFree(p)) paid += p.paid || 0; });
+  return (paid + m.owed) > 0 ? Math.max(0, Math.min(100, Math.round(paid * 100 / (paid + m.owed)))) : 100;
+}
+
+// ---- Nachrichten: Vorlage, Kanäle, Erinnerungen ----
+const DEFAULT_TPL = {
+  subject: 'Kontostand {abo}, {periode}',
+  body: 'Hallo {name},\n\n{hinweis}\n\nhier dein aktueller Kontostand für "{abo}" ({zyklus} {total}, dein Anteil {anteil}{inkl}):\n\nKontostand: {stand}\n{status}\n\nNächste Abbuchung: {datum}\n\nDanke dir!\n{absender}'
+};
+const DEFAULT_SETTINGS = {
+  tpl: { subject: DEFAULT_TPL.subject, body: DEFAULT_TPL.body },
+  cc: '41', defChannel: 'mail', mode: 'off',
+  soonOn: true, soonDays: 3, overdueOn: true, overdueDays: 7, notif: false
+};
+const CHANNELS = { mail: 'Mail', wa: 'WhatsApp', sms: 'SMS' };
+// Schritt zurück zur vorherigen Abbuchung, damit der Beginn der laufenden Periode bekannt ist.
+function prevChargeDate(iso, period, anchorDay) {
+  const p = parseISO(iso);
+  if (!p) return '';
+  if (period === 'daily') return isoPlusDays(iso, -1);
+  if (period === 'weekly') return isoPlusDays(iso, -7);
+  let y = p.y, m = p.m;
+  if (period === 'monthly') { m -= 1; if (m < 0) { m = 11; y -= 1; } } else { y -= 1; }
+  return toISO(y, m, Math.min(anchorDay || p.d, daysInMonth(y, m)));
+}
+function periodStartOf(sub) {
+  if (sub.chargeDate) return prevChargeDate(sub.chargeDate, sub.period, sub.anchorDay);
+  return sub.startDate || '';
+}
+// Platzhalter in der Vorlage ersetzen. Zeilen, deren Platzhalter leer bleiben, fallen weg.
+function fillTemplate(text, sub, p, o) {
+  o = o || {};
+  const per = PERIODS[sub.period];
+  const cov = coveredBy(sub, p).map(x => x.name);
+  const status = p.balance < 0 ? 'Noch offen: ' + money(p.balance) + '. Bitte überweise den Betrag.'
+    : p.balance > 0 ? 'Guthaben: ' + money(p.balance) + '. Das wird mit der nächsten Periode verrechnet.' : 'Alles ausgeglichen.';
+  const v = {
+    name: p.name, abo: sub.name, betrag: p.balance < 0 ? money(p.balance) : money(0), stand: signed(p.balance),
+    anteil: money(chargeFor(sub, p)), total: money(sub.totalCents), zyklus: per.label.toLowerCase(),
+    periode: sub.periodNo + '. ' + per.unit, datum: sub.chargeDate ? fmtDay(sub.chargeDate) : '',
+    status, inkl: cov.length ? ', inkl. Anteil für ' + cov.join(', ') : '', absender: o.sender || '', hinweis: o.hinweis || '',
+    tage: o.days != null ? String(o.days) : ''
+  };
+  const out = String(text).split('\n').filter(line => {
+    const keys = line.match(/\{(\w+)\}/g);
+    if (!keys) return true;
+    // Eine Zeile, deren Platzhalter alle leer bleiben, entfällt.
+    return !keys.every(k => (v[k.slice(1, -1)] || '') === '');
+  }).map(line => line.replace(/\{(\w+)\}/g, (m, k) => (k in v ? v[k] : m)));
+  return out.join('\n').replace(/\n{3,}/g, '\n\n').trim();
+}
+function composeMessage(sub, p, settings, o) {
+  const t = settings && settings.tpl ? settings.tpl : DEFAULT_TPL;
+  return { subject: fillTemplate(t.subject, sub, p, o).replace(/\s*\n\s*/g, ' '), body: fillTemplate(t.body, sub, p, o) };
+}
+function hinweisFor(type, sub, days) {
+  if (type === 'soon') return 'Kurze Erinnerung: Die nächste Abbuchung für "' + sub.name + '" ist ' + (days === 0 ? 'heute' : days === 1 ? 'morgen' : 'in ' + days + ' Tagen') + ' (' + fmtDay(sub.chargeDate) + ').';
+  if (type === 'overdue') return 'Du hast "' + sub.name + '" seit ' + days + ' Tagen noch nicht bezahlt.';
+  return '';
+}
+// Telefonnummer für wa.me und sms: nur Ziffern, mit Landesvorwahl. 079 123 45 67 wird 41791234567.
+function normPhone(s, cc) {
+  let t = String(s || '').trim();
+  if (!t) return '';
+  const plus = t.startsWith('+');
+  let d = t.replace(/\D/g, '');
+  if (!plus) { if (d.startsWith('00')) d = d.slice(2); else if (d.startsWith('0')) d = String(cc || '41') + d.slice(1); }
+  return d.length >= 8 && d.length <= 15 ? d : '';
+}
+function msgLink(ch, p, subject, body, cc) {
+  if (ch === 'mail') return p.email ? 'mailto:' + p.email + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body) : '';
+  const n = normPhone(p.phone, cc);
+  if (!n) return '';
+  return ch === 'wa' ? 'https://wa.me/' + n + '?text=' + encodeURIComponent(body) : 'sms:+' + n + '?&body=' + encodeURIComponent(body);
+}
+function channelOf(p, settings) { return CHANNELS[p.channel] ? p.channel : (settings && CHANNELS[settings.defChannel] ? settings.defChannel : 'mail'); }
+// Fällige Erinnerungen: "Zahltag bald" und "seit x Tagen nicht bezahlt". Jede nur einmal pro Periode (sent).
+function dueReminders(subs, settings, today, sent) {
+  const out = [];
+  sent = sent || {};
+  subs.forEach(s => {
+    if (s.periodNo < 1) return;
+    const toCharge = s.chargeDate ? daysBetween(today, s.chargeDate) : null;
+    const since = periodStartOf(s) ? daysBetween(periodStartOf(s), today) : 0;
+    s.people.forEach(p => {
+      if (isFree(p)) return;
+      if (settings.soonOn && toCharge !== null && toCharge >= 0 && toCharge <= settings.soonDays && p.balance - chargeFor(s, p) < 0) {
+        const key = s.id + '|' + p.id + '|soon|' + s.periodNo + '|' + s.chargeDate;
+        if (!sent[key]) out.push({ type: 'soon', sub: s, p, days: toCharge, key });
+      }
+      if (settings.overdueOn && p.balance < 0 && since >= settings.overdueDays) {
+        const key = s.id + '|' + p.id + '|overdue|' + s.periodNo;
+        if (!sent[key]) out.push({ type: 'overdue', sub: s, p, days: since, key });
+      }
+    });
+  });
+  out.sort((a, b) => (a.type === b.type ? b.days - a.days : a.type === 'overdue' ? -1 : 1));
+  return out;
+}
+// LOGIC-END
+
+const KEY = 'abo-splitter-v1';
+const WKEY = 'abo-splitter-welcomed';
+const THKEY = 'abo-splitter-theme';
+function getTheme() { try { const t = localStorage.getItem(THKEY); return t === 'light' || t === 'dark' ? t : 'auto'; } catch (e) { return 'auto'; } }
+function applyTheme(t) { const r = document.documentElement; if (t === 'light' || t === 'dark') r.setAttribute('data-theme', t); else r.removeAttribute('data-theme'); }
+applyTheme(getTheme());
+function mergeSettings(x) {
+  const d = JSON.parse(JSON.stringify(DEFAULT_SETTINGS)); x = x && typeof x === 'object' ? x : {};
+  Object.keys(d).forEach(k => { if (k !== 'tpl' && typeof x[k] === typeof d[k]) d[k] = x[k]; });
+  if (x.tpl && typeof x.tpl.subject === 'string' && typeof x.tpl.body === 'string' && x.tpl.body.trim()) d.tpl = { subject: x.tpl.subject, body: x.tpl.body };
+  d.soonDays = Math.min(60, Math.max(0, Math.round(d.soonDays))); d.overdueDays = Math.min(365, Math.max(1, Math.round(d.overdueDays)));
+  return d;
+}
+function migrate(st) {
+  st.profile = st.profile && typeof st.profile === 'object' ? st.profile : {};
+  st.profile.name = typeof st.profile.name === 'string' ? st.profile.name : '';
+  st.profile.photo = typeof st.profile.photo === 'string' ? st.profile.photo : '';
+  st.settings = mergeSettings(st.settings);
+  st.sent = st.sent && typeof st.sent === 'object' ? st.sent : {};
+  st.subs.forEach(s => {
+    s.logo = s.logo || ''; s.symbol = s.symbol || ''; s.color = s.color || '';
+    s.payments = s.payments || [];
+    s.log = s.log || [];
+    s.startDate = s.startDate || '';
+    s.periodNo = typeof s.periodNo === 'number' ? s.periodNo : 1;
+    s.people.forEach(p => { p.sponsor = p.sponsor || ''; p.email = p.email || ''; p.phone = p.phone || ''; p.channel = p.channel || ''; p.paid = p.paid || 0; });
+  });
+  return st;
+}
+function load() {
+  try {
+    const raw = localStorage.getItem(KEY);
+    if (raw) { const d = JSON.parse(raw); if (validState(d)) return migrate(d); }
+  } catch (e) {}
+  return null;
+}
+function save() { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} }
+function seed() {
+  const s = createSub({
+    name: 'Spotify Family', period: 'monthly', totalCents: 3000, startDate: isoPlusDays(todayISO(), -40),
+    people: [
+      { key: 'me', name: 'Ich', isMe: true }, { key: 'a', name: 'Aleks' }, { key: 'm', name: 'Mara' },
+      { key: 'j', name: 'Jonas' }, { key: 'l', name: 'Lea' }, { key: 't', name: 'Tim', sponsor: 'a' }
+    ]
+  });
+  s.example = true;
+  addPayment(s, s.people[1].id, 1500);
+  addPayment(s, s.people[2].id, 500);
+  return migrate({ subs: [s] });
+}
+
+const savedState = load();
+let state = savedState || seed();
+function wasWelcomed() { try { return localStorage.getItem(WKEY) === '1'; } catch (e) { return false; } }
+let ui = {
+  view: (!savedState && !wasWelcomed()) ? 'welcome' : 'list',
+  id: null, sel: null, menu: false, unit: 'm', pay: null, confirm: null, draft: null, editDate: false, msgFor: null, compose: null, undoId: null, remind: false,
+  filter: 'all', openFriend: null, prof: { backup: false, restore: false, wipe: false, pending: null, err: '' },
+  open: { pay: true, log: false }
+};
+const app = document.getElementById('app');
+const nav = document.getElementById('nav');
+const toastEl = document.getElementById('toast');
+let toastTimer = null;
+function toast(msg) {
+  toastEl.textContent = msg;
+  toastEl.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toastEl.classList.remove('show'), 2600);
+}
+function esc(s) {
+  return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+function fmtDate(t) {
+  return new Date(t).toLocaleString('de-CH', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+}
+function getSub() { return state.subs.find(s => s.id === ui.id); }
+function periodText(s) {
+  const per = PERIODS[s.period];
+  if (s.periodNo === 0) return 'Noch nicht gestartet' + (s.chargeDate ? ', erste Abbuchung ' + fmtDay(s.chargeDate) : '');
+  return s.periodNo + '. ' + per.unit + ', ' + per.label.toLowerCase() + ' abgerechnet' + (s.startDate ? ', seit ' + fmtDay(s.startDate) : '');
+}
+
+// Symbole und Kacheln. Echte Marken-Logos werden nicht mitgeliefert: Jedes Abo bekommt eine Kachel mit eigenem Bild,
+// einem Symbol oder den Anfangsbuchstaben, in frei wählbarer Farbe.
+const ICON_PATHS = {
+  home: '<path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>',
+  users: '<circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17" cy="9" r="2.5"/><path d="M17 14c2.5 0 4.5 2 4.5 4.5"/>',
+  card: '<rect x="3" y="6" width="18" height="13" rx="2.5"/><path d="M3 10.5h18M16 15h2"/>',
+  user: '<circle cx="12" cy="8" r="3.6"/><path d="M5 20c0-3.9 3.1-7 7-7s7 3.1 7 7"/>',
+  plus: '<path d="M12 5v14M5 12h14"/>',
+  back: '<path d="M15 5l-7 7 7 7"/>',
+  chev: '<path d="M9 5l7 7-7 7"/>',
+  search: '<circle cx="11" cy="11" r="6.5"/><path d="m20 20-4-4"/>',
+  send: '<path d="M21 3 10 14M21 3l-7 18-4-7-7-4z"/>',
+  clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+  check: '<path d="m5 12.5 4.5 4.5L19 7.5"/>',
+  more: '<circle cx="12" cy="5" r="1.7" fill="currentColor"/><circle cx="12" cy="12" r="1.7" fill="currentColor"/><circle cx="12" cy="19" r="1.7" fill="currentColor"/>',
+  bulb: '<path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.900c.6.500 1 1.200 1 2V16h5v-.100c0-.800.400-1.500 1-2A6 6 0 0 0 12 3z"/>',
+  camera: '<path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.500"/>',
+  music: '<path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/>',
+  play: '<rect x="3" y="5" width="18" height="14" rx="3"/><path d="m10 9 5 3-5 3z"/>',
+  film: '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M8 4v16M16 4v16M3 9h5M3 15h5M16 9h5M16 15h5"/>',
+  cloud: '<path d="M7 18a4 4 0 0 1-.6-8A6 6 0 0 1 18 9.500 4 4 0 0 1 17.500 18z"/>',
+  game: '<rect x="2.500" y="7" width="19" height="11" rx="5"/><path d="M7 10.500v4M5 12.500h4M16 11.500h.01M18 13.500h.01"/>',
+  bolt: '<path d="M13 2 4 14h7l-1 8 9-12h-7z"/>',
+  book: '<path d="M4 4.500A1.500 1.500 0 0 1 5.500 3H20v15H5.500A1.500 1.500 0 0 0 4 19.500z"/><path d="M4 19.500A1.500 1.500 0 0 0 5.500 21H20"/>',
+  cart: '<circle cx="9" cy="20" r="1.500"/><circle cx="18" cy="20" r="1.500"/><path d="M2 3h3l2.500 12h11L21 7H6"/>',
+  heart: '<path d="M12 20s-8-4.800-8-11a4.500 4.500 0 0 1 8-2.800A4.500 4.500 0 0 1 20 9c0 6.200-8 11-8 11z"/>',
+  star: '<path d="m12 3 2.700 5.600 6.100.9-4.400 4.300 1 6.100L12 17l-5.400 2.900 1-6.100L3.200 9.500l6.100-.9z"/>',
+  wifi: '<path d="M2 9a15 15 0 0 1 20 0M5 12.500a10 10 0 0 1 14 0M8.500 16a5 5 0 0 1 7 0M12 19.500h.01"/>'
+};
+const SYMS = ['music', 'play', 'film', 'cloud', 'game', 'bolt', 'book', 'cart', 'heart', 'star', 'wifi', 'home'];
+const SYM_NAMES = { music: 'Musik', play: 'Video', film: 'Film', cloud: 'Cloud', game: 'Spiele', bolt: 'Blitz', book: 'Buch', cart: 'Einkauf', heart: 'Herz', star: 'Stern', wifi: 'Internet', home: 'Haus' };
+const COLORS = ['#1f3b36', '#2b3a4f', '#5b3a8c', '#b3402f', '#c27a1a', '#1b7f5c', '#2a5db0', '#d6336c', '#333a40'];
+function ico(name) { return '<svg class="ico" viewBox="0 0 24 24" aria-hidden="true">' + ICON_PATHS[name] + '</svg>'; }
+const GROUP_SVG = '<svg class="group" viewBox="0 0 64 64" aria-hidden="true"><g fill="#9fe3c6"><circle cx="32" cy="18" r="9"/><path d="M14 50c0-10 8-17 18-17s18 7 18 17z"/><circle cx="11" cy="26" r="6" opacity=".7"/><path d="M0 48c0-7 5-12 11-12 2 0 4 .5 5.500 1.400C13 40 12 44 12 48z" opacity=".7"/><circle cx="53" cy="26" r="6" opacity=".7"/><path d="M64 48c0-7-5-12-11-12-2 0-4 .5-5.500 1.400C51 40 52 44 52 48z" opacity=".7"/></g></svg>';
+const BRAND = '<svg viewBox="0 0 512 512" aria-hidden="true"><defs><linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3c62c0"/><stop offset="1" stop-color="#22408c"/></linearGradient></defs><rect width="512" height="512" fill="url(#bg)"/><path d="M242 274 L352.85 210 A128 128 0 1 1 242 146 Z" fill="#fff"/><path d="M242 274 L242 146 A128 128 0 0 1 352.85 210 Z" transform="translate(13 -22.52)" fill="#5fd38d"/></svg>';
+const TILE_COLORS = ['#1f3b36', '#2b3a4f', '#3a2f49', '#4b3a2b', '#22413f', '#38432a', '#4a2f38', '#2f3f5a'];
+function hashStr(s) { let h = 0; for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) >>> 0; return h; }
+function tileColor(name) { return TILE_COLORS[hashStr(String(name).toLowerCase()) % TILE_COLORS.length]; }
+function initials(name) {
+  const w = String(name).trim().split(/\s+/).filter(Boolean);
+  return (w.length > 1 ? w[0][0] + w[1][0] : (w[0] || '?').slice(0, 1)).toUpperCase();
+}
+function tileFrom(logo, symbol, color, name, cls) {
+  const bg = color || (logo ? '#ffffff' : tileColor(name));
+  const inner = logo ? '<img src="' + esc(logo) + '" alt="">'
+    : (symbol && ICON_PATHS[symbol]) ? '<svg class="ico sym" viewBox="0 0 24 24" aria-hidden="true">' + ICON_PATHS[symbol] + '</svg>'
+    : esc(initials(name));
+  return '<span class="' + (cls || 'tile') + '" style="background:' + esc(bg) + '" aria-hidden="true">' + inner + '</span>';
+}
+function subTile(s, cls) { return tileFrom(s.logo, s.symbol, s.color, s.name, cls); }
+function tileHtml(name, cls) { return '<span class="' + (cls || 'tile') + '" style="background:' + tileColor(name) + '" aria-hidden="true">' + esc(initials(name)) + '</span>'; }
+function avatarHtml(name, photo, cls) {
+  if (photo) return '<span class="' + (cls || 'avatar') + '" aria-hidden="true"><img src="' + esc(photo) + '" alt=""></span>';
+  if (!String(name || '').trim()) return '<span class="' + (cls || 'avatar') + '" style="background:#2b3a4f" aria-hidden="true">' + ico('user') + '</span>';
+  return tileHtml(name, cls || 'avatar');
+}
+function statusPill(balance) { return balance < 0 ? '<span class="pill pill-wait">ausstehend</span>' : '<span class="pill pill-ok">bezahlt</span>'; }
+const SERVICES = ['Netflix', 'Spotify', 'Disney+', 'YouTube Premium', 'Amazon Prime', 'Apple TV+', 'iCloud+', 'Microsoft 365', 'Dropbox'];
+
+// Übersicht
+function renderList() {
+  const o = overview(state.subs);
+  const friends = friendsOverview(state.subs).length;
+  const nm = (state.profile.name || '').trim();
+  const rows = state.subs.map(s => {
+    const m = summary(s);
+    const per = PERIODS[s.period];
+    const pill = s.periodNo === 0 ? '<span class="pill pill-gray">geplant</span>' : m.owed > 0 ? '<span class="pill pill-wait">offen</span>' : '<span class="pill pill-ok">aktiv</span>';
+    return `<button class="card" data-act="open" data-id="${s.id}">
+      ${subTile(s)}
+      <span class="main">
+        <strong>${esc(s.name)}${s.example ? ' <span class="pill pill-gray">Beispiel</span>' : ''}</strong>
+        <span class="muted small">${money(s.totalCents)} / ${per.unit}</span>
+        <span class="muted small inl">${ico('users')}${s.people.length} Personen</span>
+        ${s.chargeDate ? `<span class="muted tiny">Abbuchung ${fmtDay(s.chargeDate)}, ${relDays(s.chargeDate)}</span>` : ''}
+        <span class="tiny num ${m.owed > 0 ? 'neg' : 'pos'}">${m.owed > 0 ? 'Offen ' + money(m.owed) : 'Alles beglichen'}</span>
+      </span>
+      <span class="side"><span class="num">${money(m.share)}</span>${pill}</span>
+      <span class="chev">${ico('chev')}</span>
+    </button>`;
+  }).join('');
+  return `
+    <header class="hello">
+      <div>
+        <h1>Hallo${nm ? ', ' + esc(nm) : ''} 👋</h1>
+        <p class="muted small">Hier ist dein Abo-Überblick</p>
+      </div>
+      <button class="plain" data-act="tab" data-v="profile" aria-label="Profil öffnen">${avatarHtml(nm, state.profile.photo)}</button>
+    </header>
+    <section class="hero-card" aria-label="Gesamtübersicht">
+      <div class="hero-head"><span class="hero-k">Monatliche Gesamtkosten</span><span class="pill pill-dark">${o.active} aktive${o.active === 1 ? 's' : ''} Abo${o.active === 1 ? '' : 's'}</span></div>
+      <div class="hero-v">${money(o.monthly)}</div>
+      <div class="hero-inner">
+        <div class="hi-row">
+          <div class="hi"><span class="hico">${ico('card')}</span><span><small>Dein Anteil</small><b>${money(o.mine)}</b></span></div>
+          <div class="hi"><span class="hico ok">${ico('check')}</span><span><small>Bereits bezahlt</small><b>${money(o.paid)}</b></span></div>
+        </div>
+        <div class="bar" role="progressbar" aria-label="Bezahlt" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${o.pct}"><i style="width:${o.pct}%"></i></div>
+        <div class="hi-foot">Noch offen: <span class="${o.owed > 0 ? 'neg' : ''}">${o.owed > 0 ? '−' : ''}${money(o.owed)}</span>${o.credit > 0 ? ' · Guthaben <span class="pos">+' + money(o.credit) + '</span>' : ''}</div>
+      </div>
+    </section>
+    ${dueHtml()}
+    <div class="sec"><h2>Meine Abos</h2><button class="round-btn" data-act="new" aria-label="Neues Abo">${ico('plus')}</button></div>
+    ${state.subs.length
+      ? `<section class="list" aria-label="Abos">${rows}</section><p class="muted small">${friends} Freund${friends === 1 ? '' : 'e'} teilen mit dir.</p>`
+      : `<div class="empty"><h2>Noch keine Abos</h2><p class="muted">Lege dein erstes geteiltes Abo an, zum Beispiel Spotify, Netflix oder die Miete des Servers.</p><button class="btn btn-primary" data-act="new">Erstes Abo anlegen</button></div>`}
+  `;
+}
+
+function dueItems() {
+  if (state.settings.mode !== 'ask') return [];
+  return dueReminders(state.subs, state.settings, todayISO(), state.sent);
+}
+function markSent(c) {
+  const today = todayISO();
+  if (c.key) state.sent[c.key] = today;
+  dueItems().filter(x => x.p.id === c.pid && x.sub.id === ui.id).forEach(x => { state.sent[x.key] = today; });
+  const ks = Object.keys(state.sent);
+  if (ks.length > 600) ks.slice(0, ks.length - 600).forEach(k => delete state.sent[k]);
+}
+function dueHtml() {
+  const items = dueItems();
+  if (!items.length) return '';
+  return `<section class="panel" aria-label="Erinnerungen">
+    <div class="pad" style="padding-bottom:4px"><div class="sec"><h2>Erinnerungen</h2><span class="pill pill-wait">${items.length}</span></div></div>
+    <ul class="people">${items.map(it => `<li>
+      ${subTile(it.sub)}
+      <div class="who"><strong>${esc(it.p.name)}</strong> <span class="muted small">· ${esc(it.sub.name)}</span>
+        <div class="small ${it.type === 'overdue' ? 'neg' : 'muted'}">${it.type === 'overdue' ? 'Seit ' + it.days + ' Tagen offen: ' + money(-it.p.balance) : 'Zahltag ' + relDays(it.sub.chargeDate)}</div></div>
+      <div class="act"><button class="btn btn-sm btn-primary" data-act="due-send" data-key="${esc(it.key)}">${CHANNELS[channelOf(it.p, state.settings)]}</button><button class="btn btn-sm btn-quiet" data-act="due-done" data-key="${esc(it.key)}">Erledigt</button></div>
+    </li>`).join('')}</ul></section>`;
+}
+function notifyDue() {
+  try {
+    if (!state.settings.notif || typeof Notification === 'undefined' || Notification.permission !== 'granted') return;
+    const items = dueItems(), key = 'notif|' + todayISO() + '|' + items.length;
+    if (!items.length || state.sent[key]) return;
+    state.sent[key] = todayISO(); save();
+    new Notification('Abo-Splitter', { body: items.length + (items.length === 1 ? ' Erinnerung ist fällig.' : ' Erinnerungen sind fällig.') });
+  } catch (e) {}
+}
+function senderName() { return (state.profile.name || '').trim(); }
+function buildMsg(s, p, type, days) {
+  return composeMessage(s, p, state.settings, { sender: senderName(), hinweis: hinweisFor(type, s, days), days });
+}
+function openCompose(s, p, type, days) {
+  const m = buildMsg(s, p, type, days);
+  ui.compose = { pid: p.id, ch: channelOf(p, state.settings), subject: m.subject, text: m.body, type: type || '', days: days || 0, key: '' };
+}
+function composeLink() {
+  const c = ui.compose, s = getSub();
+  const p = s && c && s.people.find(x => x.id === c.pid);
+  return p ? msgLink(c.ch, p, c.subject, c.text, state.settings.cc) : '';
+}
+function composeHtml(s, p) {
+  const c = ui.compose;
+  const link = msgLink(c.ch, p, c.subject, c.text, state.settings.cc);
+  const mail = c.ch === 'mail';
+  return `<div class="compose" data-compose="${p.id}">
+    <div class="seg small" role="tablist" aria-label="Kanal">${Object.entries(CHANNELS).map(([k, l]) => `<button role="tab" type="button" data-act="cch" data-c="${k}" aria-selected="${c.ch === k}">${l}</button>`).join('')}</div>
+    <div class="field"><label for="c-contact">${mail ? 'E-Mail von ' : 'Telefonnummer von '}${esc(p.name)}</label>
+      <input class="inp" id="c-contact" data-c="contact" type="${mail ? 'email' : 'tel'}" inputmode="${mail ? 'email' : 'tel'}" autocomplete="off" value="${esc(mail ? p.email : p.phone)}" placeholder="${mail ? 'name@beispiel.ch' : '079 123 45 67'}"></div>
+    ${mail ? `<div class="field"><label for="c-subject">Betreff</label><input class="inp" id="c-subject" data-c="subject" type="text" value="${esc(c.subject)}"></div>` : ''}
+    <div class="field"><label for="c-text">Nachricht (frei anpassbar)</label><textarea class="inp" id="c-text" data-c="text" rows="10">${esc(c.text)}</textarea></div>
+    <p class="small muted" id="c-hint">${link ? '' : (mail ? 'Bitte eine gültige E-Mail-Adresse eintragen.' : 'Bitte eine gültige Telefonnummer eintragen, z. B. 079 123 45 67 oder +41 79 123 45 67.')}</p>
+    <div class="act">
+      <a class="btn btn-primary btn-sm" id="compose-go" data-act="compose-sent" ${link ? `href="${esc(link)}"` : 'aria-disabled="true"'} ${c.ch === 'wa' ? 'target="_blank" rel="noopener"' : ''}>${ico('send')}&nbsp;Senden per ${CHANNELS[c.ch]}</a>
+      <button class="btn btn-sm" type="button" data-act="copy-msg">Kopieren</button>
+      <button class="btn btn-sm btn-quiet" type="button" data-act="compose-reset">Vorlage neu laden</button>
+      <button class="btn btn-sm btn-quiet" type="button" data-act="compose-close">Schliessen</button>
+    </div>
+  </div>`;
+}
+function mailActions(s, p) {
+  return `<button class="btn btn-sm" type="button" data-act="compose-open" data-pid="${p.id}">Nachricht</button>`;
+}
+function remindPanel(s) {
+  const open = s.people.filter(p => !isFree(p) && p.balance < 0);
+  if (!open.length) return '<div class="payform"><p>Alle sind ausgeglichen. Es gibt nichts zu erinnern.</p></div>';
+  return `<div class="panel"><ul class="people">${open.map(p => `<li>
+    <div class="who"><strong>${esc(p.name)}</strong><div class="small muted">Offen ${money(-p.balance)} · ${CHANNELS[channelOf(p, state.settings)]}</div></div>
+    <div class="act">${ui.compose && ui.compose.pid === p.id ? '' : mailActions(s, p)}</div>
+    ${ui.compose && ui.compose.pid === p.id ? `<div style="flex:1 1 100%">${composeHtml(s, p)}</div>` : ''}
+  </li>`).join('')}</ul></div>`;
+}
+
+// Abo-Detail
+function defaultSel(s) {
+  const ok = s.people.find(p => p.id === ui.sel);
+  if (ok) return ok.id;
+  const first = s.people.find(p => !isFree(p) && p.balance < 0) || s.people.find(p => !isFree(p)) || s.people[0];
+  return first ? first.id : null;
+}
+function personPanel(s, p) {
+  const per = PERIODS[s.period];
+  if (p.isMe) return `<div class="pad"><div class="pline"><strong>${esc(p.name)}</strong><span class="pill pill-gray">Mein Profil</span></div><p class="small muted">Diesen Anteil bezahlst du selbst, daher ohne Konto.</p></div>`;
+  if (p.sponsor) {
+    const sp = s.people.find(x => x.id === p.sponsor);
+    return `<div class="pad"><div class="pline"><strong>${esc(p.name)}</strong><span class="pill pill-gray">${esc(sp ? sp.name : '?')} zahlt mit</span></div><p class="small muted">Der Anteil läuft über das Konto von ${esc(sp ? sp.name : '?')}.</p></div>`;
+  }
+  const paying = ui.pay === p.id;
+  const cov = coveredBy(s, p);
+  return `<div class="pad">
+    <div class="pline"><strong>${esc(p.name)}</strong><span class="big ${tone(p.balance)}" aria-label="Kontostand ${signed(p.balance)}">${signed(p.balance)}</span></div>
+    <div class="small muted">${cov.length ? 'Zahlt auch für ' + esc(cov.map(x => x.name).join(', ')) + ', ' + money(chargeFor(s, p)) + ' pro ' + per.unit + '. ' : ''}${p.paid > 0 ? 'Diese Periode bezahlt: ' + money(p.paid) : 'Diese Periode noch nichts bezahlt'}${p.email ? ' · ' + esc(p.email) : ''}</div>
+    ${paying ? `<div class="payform" data-form="pay" data-pid="${p.id}">
+        <input class="inp" id="pay-input" type="text" inputmode="decimal" autocomplete="off" placeholder="Betrag in ${CURRENCY}" aria-label="Bezahlter Betrag von ${esc(p.name)}">
+        <button class="btn btn-primary btn-sm" type="button" data-act="pay-save">Speichern</button>
+        <button class="btn btn-sm" type="button" data-act="pay-cancel">Abbrechen</button>
+        <div class="error small" id="pay-error" role="alert" style="flex:1 1 100%"></div>
+      </div>`
+      : `<div class="act"><button class="btn btn-sm btn-primary" data-act="pay-open" data-pid="${p.id}">Zahlung erfassen</button>${ui.compose && ui.compose.pid === p.id ? '' : mailActions(s, p)}</div>`}
+    ${ui.compose && ui.compose.pid === p.id && !ui.remind ? composeHtml(s, p) : ''}
+  </div>`;
+}
+function timelineHtml(s) {
+  const unit = PERIODS[s.period].unit;
+  const outs = s.people.filter(p => !isFree(p) && p.balance < 0).map(p => `<li class="tli">
+      <span class="tic wait">${ico('clock')}</span>
+      <div class="who"><strong>${esc(p.name)}</strong><div class="small muted">Offen in der ${s.periodNo}. ${unit}</div></div>
+      <div class="right"><span class="num neg">−${money(-p.balance)}</span><span class="pill pill-wait">ausstehend</span></div>
+    </li>`);
+  const list = s.payments || [];
+  const ins = list.slice(0, 50).map(x => {
+    const owner = s.people.find(p => p.id === x.pid);
+    const via = owner && owner.name !== x.name ? ' (auf dem Konto von ' + esc(owner.name) + ')' : '';
+    const asking = ui.undoId === x.id;
+    return `<li class="tli">
+      <span class="tic">${ico('check')}</span>
+      <div class="who"><strong>${esc(x.name)}</strong>${via}<div class="small muted">${fmtDate(x.t)}, ${x.periodNo}. ${unit}</div></div>
+      <div class="right"><span class="num pos">+${money(x.cents)}</span>${asking ? '' : `<button class="btn btn-sm btn-quiet" type="button" data-act="undo-ask" data-id="${x.id}">Rückgängig</button>`}</div>
+      ${asking ? `<div class="confirm danger" role="alert">
+        <p>Zahlung von ${esc(x.name)} über ${money(x.cents)} wirklich rückgängig machen? Der Kontostand sinkt um diesen Betrag.</p>
+        <div class="row"><button class="btn btn-danger" type="button" data-act="undo-yes" data-id="${x.id}">Ja, rückgängig</button><button class="btn" type="button" data-act="undo-no">Abbrechen</button></div>
+      </div>` : ''}
+    </li>`;
+  });
+  const all = outs.concat(ins);
+  return `<section class="panel" aria-label="Zahlungsverlauf">${all.length
+    ? `<ul class="tl">${all.join('')}</ul>${list.length > 50 ? '<p class="small muted" style="padding:0 16px 12px">Es werden die letzten 50 Zahlungen gezeigt.</p>' : ''}`
+    : '<p class="muted small pad">Noch keine Zahlungen erfasst. Hier kannst du Zahlungen bei einem Tippfehler rückgängig machen.</p>'}</section>`;
+}
+function renderDetail() {
+  const s = getSub();
+  if (!s) { ui.view = 'list'; return renderList(); }
+  const m = summary(s);
+  const per = PERIODS[s.period];
+  ui.sel = defaultSel(s);
+  const strip = s.people.map(p => {
+    const ext = !isFree(p);
+    const sp = p.sponsor ? s.people.find(x => x.id === p.sponsor) : null;
+    const pill = p.isMe ? '<span class="pill pill-gray">Du</span>' : sp ? `<span class="pill pill-gray">über ${esc(sp.name)}</span>` : statusPill(p.balance);
+    return `<button class="pc" data-act="sel" data-pid="${p.id}" aria-pressed="${p.id === ui.sel}">
+      <span class="avwrap">${tileHtml(p.name, 'avatar')}${ext ? `<span class="dot ${p.balance < 0 ? 'warn' : ''}"></span>` : ''}</span>
+      <span class="pcn">${esc(p.name)}</span>
+      <span class="num small ${ext ? tone(p.balance) : 'zero'}">${ext ? signed(p.balance) : '–'}</span>
+      ${pill}
+    </button>`;
+  }).join('');
+  const sel = s.people.find(p => p.id === ui.sel);
+
+  const chargeBlock = ui.editDate
+    ? `<div style="flex:1 1 100%"><div class="k">Nächste Zahlung</div>
+        <div class="row" style="margin-top:8px">
+          <input class="inp" id="edit-charge" type="date" value="${esc(s.chargeDate || '')}" aria-label="Datum der nächsten Abbuchung" style="flex:1 1 150px;min-width:0;width:auto">
+          <button class="btn btn-primary btn-sm" type="button" data-act="date-save">Speichern</button>
+          <button class="btn btn-sm" type="button" data-act="date-cancel">Abbrechen</button>
+          <div class="error small" id="date-error" role="alert" style="flex:1 1 100%"></div>
+        </div></div>`
+    : `<div class="r"><div class="k">Nächste Zahlung</div>
+        <div class="v">${s.chargeDate ? esc(fmtDay(s.chargeDate)) : '–'}</div>
+        <div class="small muted">${s.chargeDate ? relDays(s.chargeDate) + ', ' : 'Noch kein Datum, '}<button class="btn btn-quiet" type="button" data-act="date-edit" style="min-height:28px;padding:0 2px;text-decoration:underline;font-size:inherit">${s.chargeDate ? 'ändern' : 'festlegen'}</button></div>
+        ${s.chargeDate ? `<div class="small muted">${s.auto !== false ? 'Wechsel automatisch.' : 'Automatischer Wechsel ist aus.'}</div>` : ''}</div>`;
+
+  const nextDate = s.chargeDate ? nextChargeDate(s.chargeDate, s.period, s.anchorDay) : '';
+  const confirmBlock = ui.confirm === 'next'
+    ? `<div class="confirm" role="alert">
+        <p><strong>${s.periodNo + 1}. ${per.unit} starten?</strong> Bei den ${m.extCount} Personen mit Konto wird der Anteil vom Kontostand abgezogen. Bezahlte Beträge dieser Periode werden dabei zurückgesetzt.${nextDate ? ' Die nächste Abbuchung rückt auf ' + esc(fmtDay(nextDate)) + '.' : ''}</p>
+        <div class="row"><button class="btn btn-primary" data-act="next-yes">Ja, Periode starten</button><button class="btn" data-act="confirm-cancel">Abbrechen</button></div>
+      </div>`
+    : ui.confirm === 'delete'
+    ? `<div class="confirm danger" role="alert">
+        <p><strong>Abo "${esc(s.name)}" löschen?</strong> Alle Kontostände und der Verlauf gehen verloren.</p>
+        <div class="row"><button class="btn btn-danger" data-act="delete-yes">Ja, löschen</button><button class="btn" data-act="confirm-cancel">Abbrechen</button></div>
+      </div>` : '';
+
+  return `
+    <section class="hd" aria-label="Abo">
+      <div class="hd-top">
+        <button class="hd-btn" data-act="back" aria-label="Zurück">${ico('back')}</button>
+        <button class="hd-btn" data-act="menu" aria-label="Mehr" aria-expanded="${!!ui.menu}">${ico('more')}</button>
+        ${ui.menu ? `<div class="menu" role="menu">
+          <button class="mi" role="menuitem" data-act="edit">Bearbeiten</button>
+          <button class="mi" role="menuitem" data-act="next-ask">Nächste Periode starten</button>
+          <button class="mi danger" role="menuitem" data-act="delete-ask">Abo löschen</button>
+        </div>` : ''}
+      </div>
+      <div class="hd-main">
+        ${subTile(s, 'tile lg')}
+        <div>
+          <h1>${esc(s.name)}</h1>
+          <p class="hd-sub">${money(s.totalCents)} / ${per.unit}</p>
+          <div class="chips"><span class="pill pill-mint">geteilt</span><span class="pill pill-dark">${per.label}</span>${s.example ? '<span class="pill pill-dark">Beispiel</span>' : ''}</div>
+        </div>
+      </div>
+    </section>
+    <section class="sheetcard" aria-label="Beträge">
+      <div><div class="k">Gesamtbetrag</div><div class="v">${money(s.totalCents)} <small>/ ${per.unit}</small></div></div>
+      ${chargeBlock}
+    </section>
+    ${confirmBlock}
+    <section class="facts" aria-label="Kennzahlen">
+      <div class="fact"><div class="k">Pro Person</div><div class="v">${money(m.share)}</div></div>
+      <div class="fact"><div class="k">Noch offen</div><div class="v ${m.owed > 0 ? 'neg' : 'zero'}">${m.owed > 0 ? '−' : ''}${money(m.owed)}</div></div>
+      <div class="fact"><div class="k">Periode</div><div class="v">${s.periodNo}.</div></div>
+    </section>
+    <p class="small muted">${esc(periodText(s))}</p>
+    <div class="sec"><h2>Geteilt mit</h2><span class="small muted">${s.people.length} Personen</span></div>
+    <div class="strip" aria-label="Personen">${strip}</div>
+    ${sel ? `<section class="panel" aria-label="Details zu ${esc(sel.name)}">${personPanel(s, sel)}</section>` : ''}
+    <button class="btn btn-primary btn-block" data-act="remind">${ico('send')} Zahlung erinnern</button>
+    ${ui.remind ? remindPanel(s) : ''}
+    <div class="sec"><h2>Zahlungsverlauf</h2></div>
+    ${timelineHtml(s)}
+    <details class="log" data-d="log" ${ui.open.log ? 'open' : ''}>
+      <summary>Verlauf</summary>
+      <ul class="loglist">${s.log.map(l => `<li><time>${fmtDate(l.t)}</time><span>${esc(l.text)}</span></li>`).join('')}</ul>
+    </details>
+  `;
+}
+
+// Freunde
+function renderFriends() {
+  const list = friendsOverview(state.subs);
+  const y = ui.unit === 'y';
+  const rows = list.map(f => {
+    const open = ui.openFriend === f.key;
+    const via = f.subs.find(x => x.via);
+    return `<li style="padding:0;display:block">
+      <button class="frow" data-act="friend-toggle" data-key="${esc(f.key)}" aria-expanded="${open}">
+        ${tileHtml(f.name, 'avatar')}
+        <span class="who"><strong>${esc(f.name)}</strong> <span class="muted small">(${f.subs.length} Abo${f.subs.length === 1 ? '' : 's'})</span>
+          ${f.hasAccount ? `<span class="muted small" style="display:block">${money(f.monthly)} / Monat</span>` : ''}</span>
+        <span class="right">
+          ${f.hasAccount ? `<span class="num ${tone(f.balance)}">${signed(f.balance)}</span>${statusPill(f.balance)}` : `<span class="pill pill-gray">${via ? 'über ' + esc(via.via) : 'ohne Konto'}</span>`}
+        </span>
+      </button>
+      ${open ? `<ul class="fsubs">${f.subs.map(x => `<li>
+        <span><strong>${esc(x.subName)}</strong> ${x.free ? '<span class="muted small">' + (x.me ? 'Mein Profil' : 'über ' + esc(x.via)) + '</span>' : `<span class="num small ${tone(x.balance)}">${signed(x.balance)}</span>`}</span>
+        <button class="btn btn-sm" data-act="open" data-id="${x.subId}">Abo öffnen</button>
+      </li>`).join('')}</ul>` : ''}
+    </li>`;
+  }).join('');
+  const aps = state.subs.map(s => {
+    const amt = monthlyCents(s) * (y ? 12 : 1);
+    const pct = subProgress(s);
+    return `<li>${subTile(s)}<span><strong>${esc(s.name)}</strong></span><span class="num">${money(amt)}</span><span class="pbar" role="progressbar" aria-label="Bezahlt ${esc(s.name)}" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100"><i style="width:${pct}%"></i></span><span class="tiny muted" style="text-align:right">${pct}% bezahlt</span></li>`;
+  }).join('');
+  return `
+    <header class="top"><div><h1>Freunde</h1><p class="muted small">${list.length} Freund${list.length === 1 ? '' : 'e'} · ${state.subs.length} Abo${state.subs.length === 1 ? '' : 's'}</p></div>
+      <button class="round-btn" data-act="new" aria-label="Neues Abo">${ico('plus')}</button></header>
+    ${list.length
+      ? `<section class="panel"><ul class="people">${rows}</ul></section>`
+      : '<div class="empty"><h2>Noch keine Freunde</h2><p class="muted">Sobald du ein Abo mit anderen Personen anlegst, erscheinen sie hier mit ihrem Gesamtstand über alle Abos.</p></div>'}
+    ${state.subs.length ? `<div class="sec"><h2>Aufteilung pro Abo</h2>
+      <div class="seg small" role="tablist" aria-label="Zeitraum"><button role="tab" data-act="unit" data-u="m" aria-selected="${!y}">Monatlich</button><button role="tab" data-act="unit" data-u="y" aria-selected="${y}">Jährlich</button></div></div>
+    <section class="panel"><ul class="aps">${aps}</ul></section>` : ''}
+    <button class="tip" data-act="new">${ico('bulb')}<span><b>Wusstest du?</b><span class="small">Mit einem neuen Abo und mehreren Personen teilst du die Kosten fair, und jeder sieht seinen Stand.</span></span></button>
+  `;
+}
+
+// Zahlungen über alle Abos
+function renderPayments() {
+  const items = txItems(state.subs, ui.filter === 'in' ? 'in' : ui.filter === 'out' ? 'out' : 'all');
+  const FILTERS = [['all', 'Alle'], ['in', 'Eingehend'], ['out', 'Ausstehend']];
+  const rows = items.slice(0, 200).map(x => `<li>
+    <button class="frow" data-act="open" data-id="${x.sub.id}" style="padding:0">
+      ${tileHtml(x.sub.name)}
+      <span class="who"><strong>${esc(x.sub.name)} – ${esc(x.name)}</strong>
+        <span class="muted small" style="display:block">${x.kind === 'in' ? fmtDate(x.t) : 'Offen in der ' + x.periodNo + '. ' + PERIODS[x.sub.period].unit}</span></span>
+      <span class="right"><span class="num ${x.kind === 'in' ? 'pos' : 'neg'}">${x.kind === 'in' ? '+' : '−'}${money(x.cents)}</span>${x.kind === 'in' ? '<span class="pill pill-ok">bezahlt</span>' : '<span class="pill pill-wait">ausstehend</span>'}</span>
+    </button>
+  </li>`).join('');
+  return `
+    <header class="top"><div><h1>Zahlungen</h1><p class="muted small">Alle Abos zusammen</p></div></header>
+    <div class="seg" role="tablist" aria-label="Filter">${FILTERS.map(([k, l]) => `<button role="tab" data-act="filter" data-f="${k}" aria-selected="${ui.filter === k}">${l}</button>`).join('')}</div>
+    ${items.length
+      ? `<section class="panel"><ul class="people">${rows}</ul></section>${items.length > 200 ? '<p class="small muted">Es werden die ersten 200 Einträge gezeigt.</p>' : ''}`
+      : `<div class="empty"><h2>Nichts zu zeigen</h2><p class="muted">${ui.filter === 'out' ? 'Es ist nichts mehr offen.' : ui.filter === 'in' ? 'Es wurden noch keine Zahlungen erfasst.' : 'Noch keine Zahlungen und nichts offen.'}</p></div>`}
+  `;
+}
+
+// Profil
+const PLACEHOLDERS = ['name', 'abo', 'stand', 'betrag', 'anteil', 'total', 'periode', 'datum', 'status', 'hinweis', 'absender'];
+function settingsBlock() {
+  const st = state.settings, ok = typeof Notification !== 'undefined';
+  const seg = (act, key, cur, list) => `<div class="seg small" role="tablist">${list.map(([k, l]) => `<button role="tab" type="button" data-act="${act}" data-${key}="${k}" aria-selected="${cur === k}">${l}</button>`).join('')}</div>`;
+  return `<div class="block">
+      <strong>Erinnerungen</strong>
+      <p class="small muted">Die App bereitet fällige Nachrichten fertig vor. Abgeschickt werden sie mit einem Tipp, denn WhatsApp und SMS lassen sich aus einer App ohne Server nicht selbständig versenden.</p>
+      ${seg('set-mode', 'm', st.mode, [['off', 'Aus'], ['ask', 'Vorbereiten']])}
+      <label class="chk"><input type="checkbox" data-set="soonOn" ${st.soonOn ? 'checked' : ''}> Vor dem Zahltag erinnern, ab</label>
+      <div class="row" style="align-items:center"><input class="inp" style="width:90px" type="number" min="0" max="60" data-set="soonDays" value="${st.soonDays}" aria-label="Tage vor dem Zahltag"><span>Tage vorher</span></div>
+      <label class="chk"><input type="checkbox" data-set="overdueOn" ${st.overdueOn ? 'checked' : ''}> Erinnern, wenn jemand nicht bezahlt hat, nach</label>
+      <div class="row" style="align-items:center"><input class="inp" style="width:90px" type="number" min="1" max="365" data-set="overdueDays" value="${st.overdueDays}" aria-label="Tage ohne Zahlung"><span>Tagen (ab Beginn der Periode)</span></div>
+    </div>
+    <div class="block">
+      <strong>Standard-Kanal</strong>
+      <p class="small muted">Für jede Person kannst du im Abo einen eigenen Kanal wählen.</p>
+      ${seg('set-ch', 'c', st.defChannel, Object.entries(CHANNELS))}
+      <div class="field"><label for="s-cc">Landesvorwahl für Nummern mit 0 am Anfang</label><input class="inp" id="s-cc" style="width:110px" type="text" inputmode="numeric" data-set="cc" value="${esc(st.cc)}"></div>
+      <div>${ok && st.notif ? '<button class="btn btn-sm" data-act="notif-off">Mitteilungen ausschalten</button>' : (ok ? '<button class="btn btn-sm" data-act="notif-on">Mitteilungen einschalten</button>' : '')}</div>
+      <p class="small muted">Mitteilungen erscheinen nur, wenn die App geöffnet ist. Ohne Mitteilungen siehst du die Erinnerungen oben in der Übersicht.</p>
+    </div>
+    <div class="block">
+      <strong>Nachrichtenvorlage</strong>
+      <p class="small muted">Platzhalter: ${PLACEHOLDERS.map(k => '<code>{' + k + '}</code>').join(' ')}. Zeilen, deren Platzhalter leer sind, fallen weg. Vor dem Senden lässt sich jede Nachricht nochmals anpassen.</p>
+      <div class="field"><label for="s-subj">Betreff (nur Mail)</label><input class="inp" id="s-subj" type="text" data-set="tplSubject" value="${esc(st.tpl.subject)}"></div>
+      <div class="field"><label for="s-body">Text</label><textarea class="inp" id="s-body" rows="12" data-set="tplBody">${esc(st.tpl.body)}</textarea></div>
+      <div><button class="btn btn-sm" data-act="tpl-reset">Standardvorlage wiederherstellen</button></div>
+    </div>`;
+}
+function renderProfile() {
+  const pr = ui.prof, th = getTheme(), pf = state.profile;
+  const TH = [['light', 'Hell'], ['dark', 'Dunkel'], ['auto', 'Automatisch']];
+  return `
+    <header class="top"><div><h1>Profil</h1><p class="muted small">Daten und Einstellungen</p></div></header>
+    <section class="panel">
+      <div class="block" style="border-top:0">
+        <div class="logoed">${avatarHtml(pf.name, pf.photo, 'avatar lgav')}
+          <div class="act"><label class="btn btn-sm">Foto wählen<input type="file" accept="image/*" data-prof="photo" hidden></label>${pf.photo ? '<button class="btn btn-sm btn-quiet" data-act="photo-clear">Foto entfernen</button>' : ''}</div></div>
+        <div class="field"><label for="p-name">Dein Name</label><input class="inp" id="p-name" type="text" data-prof="name" value="${esc(pf.name)}" placeholder="z. B. Alex" autocomplete="off"></div>
+      </div>
+      <div class="block">
+        <strong>Darstellung</strong>
+        <div class="seg" role="tablist" aria-label="Darstellung">${TH.map(([k, l]) => `<button role="tab" data-act="theme" data-t="${k}" aria-selected="${th === k}">${l}</button>`).join('')}</div>
+      </div>
+      ${settingsBlock()}
+      <div class="brandrow" style="border-top:1px solid var(--line)">${BRAND}<div><strong>Abo-Splitter</strong><div class="small muted">Deine Daten liegen nur auf diesem Gerät, im Browser dieser App.</div></div></div>
+      <div class="block">
+        <strong>Daten sichern</strong>
+        <p class="small muted">Kopiere die Sicherung und bewahre sie auf. So kannst du deine Abos auf einem anderen Gerät oder nach dem Löschen der Browserdaten wiederherstellen.</p>
+        ${pr.backup ? `<textarea class="inp" id="backup-text" readonly rows="6" aria-label="Sicherung">${esc(JSON.stringify(state))}</textarea>
+          <div class="row"><button class="btn btn-primary btn-sm" data-act="backup-copy">Sicherung kopieren</button><button class="btn btn-sm" data-act="backup-hide">Schliessen</button></div>`
+          : '<div><button class="btn btn-sm" data-act="backup-show">Sicherung anzeigen</button></div>'}
+      </div>
+      <div class="block">
+        <strong>Sicherung einspielen</strong>
+        <p class="small muted">Fügt eine zuvor kopierte Sicherung ein und ersetzt alle aktuellen Daten.</p>
+        ${pr.restore ? `<textarea class="inp" id="restore-text" rows="5" placeholder="Sicherung hier einfügen" aria-label="Sicherung einfügen"></textarea>
+          <div class="error small" id="restore-error" role="alert">${esc(pr.err)}</div>
+          ${pr.pending ? `<div class="confirm danger" role="alert"><p>Alle aktuellen Daten durch die Sicherung ersetzen (${pr.pending.subs.length} Abo${pr.pending.subs.length === 1 ? '' : 's'})?</p><div class="row"><button class="btn btn-danger" data-act="restore-yes">Ja, ersetzen</button><button class="btn" data-act="restore-no">Abbrechen</button></div></div>`
+            : '<div class="row"><button class="btn btn-primary btn-sm" data-act="restore-check">Prüfen</button><button class="btn btn-sm" data-act="restore-hide">Schliessen</button></div>'}`
+          : '<div><button class="btn btn-sm" data-act="restore-show">Sicherung einfügen</button></div>'}
+      </div>
+      <div class="block">
+        <strong>Alle Daten löschen</strong>
+        <p class="small muted">Entfernt alle Abos, Kontostände und Zahlungen von diesem Gerät.</p>
+        ${pr.wipe ? `<div class="confirm danger" role="alert"><p>Wirklich alles löschen? Das lässt sich nicht rückgängig machen.</p><div class="row"><button class="btn btn-danger" data-act="wipe-yes">Ja, alles löschen</button><button class="btn" data-act="wipe-no">Abbrechen</button></div></div>`
+          : '<div><button class="btn btn-sm btn-danger" data-act="wipe-ask">Alle Daten löschen</button></div>'}
+      </div>
+    </section>
+  `;
+}
+
+function renderWelcome() {
+  return `<section class="welcome">
+    <div class="w-mid">${GROUP_SVG}
+      <h1>Abos teilen.<br><span>Besser zusammen.</span></h1>
+      <p>Behalte alle deine Abos im Blick und teile die Kosten mit deinen Freunden. Einfach, transparent, fair.</p>
+    </div>
+    <button class="btn btn-mint btn-block" data-act="welcome-go">Los geht's</button>
+  </section>`;
+}
+
+// Formular für neues Abo und Bearbeiten. Personen tragen einen stabilen "key", damit Übernahmen auch bei neuen Zeilen funktionieren.
+function newKey() { return 'k' + uid(); }
+function newDraft() {
+  return {
+    name: '', logo: '', symbol: '', color: '', period: 'monthly', total: '', start: todayISO(), charge: '', auto: true, count: 2,
+    people: [
+      { key: newKey(), name: 'Ich', isMe: true, email: '', phone: '', channel: '', sponsor: '' },
+      { key: newKey(), name: '', isMe: false, email: '', phone: '', channel: '', sponsor: '' }
+    ]
+  };
+}
+function pLabel(p, i) { return (p.name || '').trim() || ('Person ' + (i + 1)); }
+function draftPeopleHtml() {
+  const d = ui.draft, edit = !!d.editId;
+  const rows = d.people.map((p, i) => {
+    const sponsoring = d.people.filter(x => x.sponsor === p.key);
+    const opts = d.people.map((x, j) => ({ x, j })).filter(({ x, j }) => j !== i && !x.isMe && !x.sponsor);
+    let spon = '';
+    if (!p.isMe && !sponsoring.length && opts.length) {
+      spon = `<select class="inp" data-draft="psponsor" data-i="${i}" aria-label="Wer bezahlt den Anteil von Person ${i + 1}?">
+        <option value="">Zahlt den Anteil selbst</option>
+        ${opts.map(({ x, j }) => `<option value="${x.key}" data-lbl="${x.key}" ${p.sponsor === x.key ? 'selected' : ''}>Anteil bezahlt ${esc(pLabel(x, j))}</option>`).join('')}
+      </select>`;
+    } else if (sponsoring.length) {
+      spon = `<span class="small muted" style="flex:1 1 100%">Bezahlt auch den Anteil von ${esc(sponsoring.map(x => pLabel(x, d.people.indexOf(x))).join(', '))}</span>`;
+    }
+    return `<div class="prow">
+      <input class="inp" type="text" data-draft="pname" data-i="${i}" placeholder="Name von Person ${i + 1}" value="${esc(p.name)}" aria-label="Name von Person ${i + 1}">
+      ${p.isMe ? '' : `<input class="inp" type="email" data-draft="pemail" data-i="${i}" placeholder="E-Mail (optional)" value="${esc(p.email || '')}" aria-label="E-Mail von Person ${i + 1}" autocomplete="off">`}
+      ${p.isMe ? '' : `<input class="inp" type="tel" inputmode="tel" data-draft="pphone" data-i="${i}" placeholder="Telefon (optional, für WhatsApp/SMS)" value="${esc(p.phone || '')}" aria-label="Telefonnummer von Person ${i + 1}" autocomplete="off">
+      <select class="inp" data-draft="pchannel" data-i="${i}" aria-label="Kanal für Nachrichten an Person ${i + 1}">
+        <option value="" ${!p.channel ? 'selected' : ''}>Kanal: Standard</option>
+        ${Object.entries(CHANNELS).map(([k, l]) => `<option value="${k}" ${p.channel === k ? 'selected' : ''}>Kanal: ${l}</option>`).join('')}
+      </select>`}
+      <label class="chk"><input type="checkbox" data-draft="pme" data-i="${i}" ${p.isMe ? 'checked' : ''}> Ist das mein eigenes Profil? (ich zahle den Anteil)</label>
+      ${edit ? `${p.id && !p.isMe && !p.sponsor && p.balance ? `<span class="small num ${tone(p.balance)}">Konto ${signed(p.balance)}</span>` : ''}<button class="btn btn-sm btn-danger" type="button" data-act="draft-remove" data-i="${i}" ${d.people.length <= 2 ? 'disabled' : ''}>Entfernen</button>` : ''}
+      ${spon}
+    </div>`;
+  }).join('');
+  const removed = edit && d.removed.length
+    ? `<p class="small muted">Entfernt: ${d.removed.map(r => esc(r.name) + (r.balance ? ' (Konto ' + signed(r.balance) + ' geht verloren)' : '')).join(', ')}</p>`
+    : '';
+  return rows + removed;
+}
+function refreshSponsorLabels() {
+  const d = ui.draft;
+  if (!d) return;
+  d.people.forEach((x, j) => {
+    document.querySelectorAll('option[data-lbl="' + x.key + '"]').forEach(o => { o.textContent = 'Anteil bezahlt ' + pLabel(x, j); });
+  });
+}
+function logoEditorHtml() {
+  const d = ui.draft;
+  return `<div class="logoed">${tileFrom(d.logo, d.symbol, d.color, d.name, 'tile lg')}
+      <div class="act"><label class="btn btn-sm">Bild hochladen<input type="file" accept="image/*" data-draft="logofile" hidden></label>${d.logo ? '<button class="btn btn-sm btn-quiet" type="button" data-act="logo-clear">Bild entfernen</button>' : ''}</div></div>
+    <div class="symgrid" role="group" aria-label="Symbol">${SYMS.map(k => `<button class="symbtn" type="button" data-act="sym" data-k="${k}" aria-pressed="${!d.logo && d.symbol === k}" aria-label="Symbol ${SYM_NAMES[k]}">${ico(k)}</button>`).join('')}<button class="symbtn" type="button" data-act="sym" data-k="" aria-pressed="${!d.logo && !d.symbol}" aria-label="Buchstaben statt Symbol"><b>Aa</b></button></div>
+    <div class="swatches" role="group" aria-label="Farbe"><button class="swatch" type="button" data-act="color" data-c="" aria-pressed="${!d.color}" aria-label="Farbe automatisch" style="background:var(--surface-2)"></button>${COLORS.map(c => `<button class="swatch" type="button" data-act="color" data-c="${c}" aria-pressed="${d.color === c}" aria-label="Farbe ${c}" style="background:${c}"></button>`).join('')}</div>`;
+}
+function refreshLogo() { const el = document.getElementById('d-logo'); if (el && ui.draft) el.innerHTML = logoEditorHtml(); }
+function readImage(file, max, square, cb) {
+  if (!file || !/^image\//.test(file.type)) { toast('Bitte eine Bilddatei wählen'); return; }
+  const fr = new FileReader();
+  fr.onerror = () => toast('Die Datei konnte nicht gelesen werden');
+  fr.onload = () => {
+    const img = new Image();
+    img.onerror = () => toast('Das Bild konnte nicht gelesen werden');
+    img.onload = () => {
+      const w = img.naturalWidth || 128, h = img.naturalHeight || 128;
+      const side = square ? Math.min(w, h) : 0;
+      const sc = Math.min(1, max / (square ? side : Math.max(w, h)));
+      const cv = document.createElement('canvas');
+      cv.width = Math.max(1, Math.round((square ? side : w) * sc)); cv.height = Math.max(1, Math.round((square ? side : h) * sc));
+      const g = cv.getContext('2d');
+      if (square) g.drawImage(img, (w - side) / 2, (h - side) / 2, side, side, 0, 0, cv.width, cv.height);
+      else g.drawImage(img, 0, 0, cv.width, cv.height);
+      cb(cv.toDataURL(square ? 'image/jpeg' : 'image/png', 0.85));
+    };
+    img.src = fr.result;
+  };
+  fr.readAsDataURL(file);
+}
+function renderNew() {
+  const d = ui.draft, edit = !!d.editId;
+  return `
+    <header class="top">
+      <div>
+        <button class="btn btn-quiet btn-sm crumb" data-act="${edit ? 'cancel-edit' : 'back'}">${ico('back')} ${edit ? 'Zurück zum Abo' : 'Zurück'}</button>
+        <h1>${edit ? 'Abo bearbeiten' : 'Neues Abo hinzufügen'}</h1>
+        <p class="muted small">${edit ? 'Korrigiere Angaben oder Personen. Bestehende Kontostände bleiben erhalten.' : 'Erfasse Abo oder Fixkosten und wer sich den Betrag teilt.'}</p>
+      </div>
+    </header>
+    ${edit ? '' : `<section class="list" aria-label="Beliebte Abos">
+      <div class="search">${ico('search')}<input class="inp" id="svc-search" type="search" data-draft="svcsearch" placeholder="Abo suchen..." aria-label="Beliebte Abos durchsuchen" autocomplete="off"></div>
+      <h2>Beliebte Abos</h2>
+      <div class="svc">${SERVICES.map(n => `<button type="button" data-act="svc" data-name="${esc(n)}" data-svc="${esc(n)}">${tileHtml(n)}<span>${esc(n)}</span></button>`).join('')}</div>
+      <p class="small muted" id="svc-none" hidden>Kein Treffer. Trage den Namen unten ein.</p>
+      <h2>Oder manuell hinzufügen</h2>
+    </section>`}
+    <div class="form" data-form="new">
+      <div class="fields">
+        <div class="field"><label for="d-name">Name des Service</label>
+          <input class="inp" id="d-name" type="text" data-draft="name" placeholder="z. B. Spotify" value="${esc(d.name)}" autocomplete="off"></div>
+        <div class="field" style="grid-column:1/-1"><span class="lbl">Logo oder Symbol</span><div id="d-logo" class="field">${logoEditorHtml()}</div>
+          <p class="muted small">Lade ein eigenes Bild hoch (z. B. das Logo des Dienstes) oder wähle Symbol und Farbe. Ohne Auswahl erscheinen die Anfangsbuchstaben.</p></div>
+        <div class="field"><label for="d-period">Abrechnungs-Periode</label>
+          <select class="inp" id="d-period" data-draft="period">
+            ${Object.entries(PERIODS).map(([k, v]) => `<option value="${k}" ${d.period === k ? 'selected' : ''}>${v.label}</option>`).join('')}
+          </select></div>
+        <div class="field"><label for="d-total">Gesamtbetrag (${CURRENCY})</label>
+          <input class="inp" id="d-total" type="text" inputmode="decimal" data-draft="total" placeholder="z. B. 30" value="${esc(d.total)}" autocomplete="off"></div>
+        ${edit ? '' : `<div class="field"><label for="d-count">Anzahl der Personen</label>
+          <div class="stepper">
+            <button class="btn" type="button" data-act="count-dec" aria-label="Eine Person weniger">−</button>
+            <input class="inp" id="d-count" type="number" min="2" max="30" data-draft="count" value="${d.count}">
+            <button class="btn" type="button" data-act="count-inc" aria-label="Eine Person mehr">+</button>
+          </div></div>`}
+        <div class="field"><label for="d-start">Abo gestartet am</label>
+          <input class="inp" id="d-start" type="date" data-draft="start" value="${esc(d.start)}"></div>
+        ${edit ? `<div class="field"><label for="d-charge">Nächste Abbuchung am</label>
+          <input class="inp" id="d-charge" type="date" data-draft="charge" value="${esc(d.charge)}"></div>` : ''}
+        <label class="chk" style="grid-column:1/-1"><input type="checkbox" id="d-auto" data-draft="auto" ${d.auto ? 'checked' : ''}> Periode automatisch am Abbuchungsdatum wechseln. Der Anteil wird dann von selbst abgezogen.</label>
+      </div>
+      <div class="share-line" id="d-share" aria-live="polite"></div>
+      <div class="field">
+        <h2>Personen</h2>
+        <p class="muted small">Setze die Checkbox bei jeder Person, deren Anteil du selbst bezahlst, also bei dir und zum Beispiel bei deiner Freundin. Bezahlt eine andere Person mit Konto den Anteil von jemandem (z. B. Aleks zahlt auch für Anita), wähle das bei Anita im Feld darunter aus.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px" id="d-people">${draftPeopleHtml()}</div>
+      ${edit ? `<div><button class="btn btn-sm" type="button" data-act="draft-add">Person hinzufügen</button></div>
+      <div class="field">
+        <label class="chk"><input type="checkbox" id="d-apply" data-draft="apply" ${d.applyCurrent ? 'checked' : ''}> Änderungen auch für die aktuelle Periode übernehmen</label>
+        <p class="muted small">Eingeschaltet: Die Kontostände werden so korrigiert, als hätte das Abo von Anfang an so gegolten. Gut bei Tippfehlern. Ausgeschaltet: Neuer Betrag und neue Personen gelten erst ab der nächsten Periode. Ein geändertes Startdatum rechnet die Perioden immer neu.</p>
+      </div>` : ''}
+      <div class="error" id="d-error" role="alert"></div>
+      <div class="row">
+        <button class="btn btn-primary" type="button" data-act="save-new">${edit ? 'Änderungen speichern' : 'Speichern'}</button>
+        <button class="btn" type="button" data-act="${edit ? 'cancel-edit' : 'back'}">Abbrechen</button>
+      </div>
+    </div>
+  `;
+}
+function updateShare() {
+  const el = document.getElementById('d-share');
+  if (!el || !ui.draft) return;
+  const d = ui.draft, c = parseCents(d.total), n = d.people.length;
+  const share = (c > 0 && n >= 2) ? Math.round(c / n) : 0;
+  const cur = d.editId ? getSub() : null;
+  let t = 'Anteil pro Person: ' + (cur ? money(shareOf(cur)) + ' → ' : '') + (share ? money(share) : '–');
+  const sd = parseISO(d.start) ? d.start : (d.editId ? '' : todayISO());
+  if (sd) {
+    const per = periodsUntil(sd, d.period, todayISO());
+    t += '\n' + (per.n === 0
+      ? 'Startet am ' + fmtDay(sd) + '.'
+      : 'Seit ' + fmtDay(sd) + ': ' + per.n + (per.n === 1 ? ' Periode' : ' Perioden') + ' berechnet, nächste Abbuchung ' + fmtDay(per.next) + '.');
+    if (cur && sd !== (cur.startDate || '') && per.n !== cur.periodNo) {
+      t += '\nBisher ' + cur.periodNo + ' Perioden. Die Kontostände werden um die Differenz angepasst.';
+    }
+  }
+  el.textContent = t;
+}
+function dateProblem(d) {
+  const cur = d.editId ? getSub() : null;
+  if (!cur || !d.auto || !d.charge) return '';
+  const startChanged = d.start && d.start !== (cur.startDate || '');
+  if (!startChanged && d.charge !== (cur.chargeDate || '') && d.charge <= todayISO()) {
+    return 'Das Datum der nächsten Abbuchung muss in der Zukunft liegen, damit die Periode automatisch wechseln kann. Gib ein späteres Datum ein oder schalte den automatischen Wechsel aus.';
+  }
+  return '';
+}
+function normalizeDraft(d) {
+  normalizeSponsors(d.people, 'key');
+  d.count = d.people.length;
+}
+function resizeDraft(d, n) {
+  while (d.people.length < n) d.people.push({ key: newKey(), name: '', isMe: false, email: '', phone: '', channel: '', sponsor: '' });
+  while (d.people.length > n) d.people.pop();
+  normalizeDraft(d);
+}
+
+// Darstellung
+const TABS = [['list', 'Übersicht', 'home'], ['friends', 'Freunde', 'users'], ['payments', 'Zahlungen', 'card'], ['profile', 'Profil', 'user']];
+function viewHtml() {
+  switch (ui.view) {
+    case 'welcome': return renderWelcome();
+    case 'detail': return renderDetail();
+    case 'new': case 'edit': return renderNew();
+    case 'friends': return renderFriends();
+    case 'payments': return renderPayments();
+    case 'profile': return renderProfile();
+    default: return renderList();
+  }
+}
+function renderNav() {
+  const on = TABS.some(t => t[0] === ui.view);
+  nav.hidden = !on;
+  document.body.classList.toggle('has-nav', on);
+  nav.innerHTML = on ? '<div class="navin">' + TABS.map(([v, l, i]) => `<button class="navbtn" data-act="tab" data-v="${v}" ${ui.view === v ? 'aria-current="page"' : ''}>${ico(i)}<span>${l}</span></button>`).join('') + '</div>' : '';
+}
+function render() {
+  app.innerHTML = viewHtml();
+  renderNav();
+  if (ui.view === 'new' || ui.view === 'edit') updateShare();
+  if (ui.view === 'detail' && ui.pay) { const i = document.getElementById('pay-input'); if (i) i.focus(); }
+  window.scrollTo(0, 0);
+}
+function rerenderKeepScroll() {
+  const y = window.scrollY;
+  app.innerHTML = viewHtml();
+  renderNav();
+  if (ui.view === 'detail' && ui.pay) { const i = document.getElementById('pay-input'); if (i) i.focus(); }
+  window.scrollTo(0, y);
+}
+
+// Navigation: Jede Ansicht ist ein Eintrag im Browserverlauf, damit die Zurück-Taste (auch am Handy)
+// eine Seite zurückgeht, statt die App zu schliessen. navDepth zählt nur die Einträge, die die App selbst angelegt hat.
+let navDepth = 0;
+function show(view, id) {
+  ui.view = view; ui.id = id || null;
+  ui.pay = null; ui.menu = false; ui.confirm = null; ui.editDate = false; ui.msgFor = null; ui.compose = null; ui.undoId = null; ui.remind = false;
+  if (view !== 'new' && view !== 'edit') ui.draft = null;
+  render();
+}
+function navTo(view, id) {
+  try { history.pushState({ v: view, id: id || null, d: navDepth + 1 }, ''); navDepth += 1; } catch (e) {}
+  show(view, id);
+}
+function replaceTo(view, id) {
+  try { history.replaceState({ v: view, id: id || null, d: navDepth }, ''); } catch (e) {}
+  show(view, id);
+}
+function goBack(fallbackView, fallbackId) {
+  if (navDepth > 0) {
+    try { history.back(); return; } catch (e) {}
+  }
+  show(fallbackView || 'list', fallbackId);
+}
+function goTab(v) {
+  if (ui.view === v) return;
+  if (v === 'list') goBack('list');
+  else if (ui.view === 'list') navTo(v);
+  else replaceTo(v);
+}
+window.addEventListener('popstate', e => {
+  const st = e.state || { v: 'list', id: null, d: 0 };
+  navDepth = st.d || 0;
+  let v = st.v || 'list', id = st.id || null;
+  if ((v === 'new' || v === 'edit') && (!ui.draft || (v === 'edit' && ui.draft.editId !== id))) v = id ? 'detail' : 'list';
+  if ((v === 'detail' || v === 'edit') && !state.subs.some(s => s.id === id)) { v = 'list'; id = null; }
+  if (!['list', 'friends', 'payments', 'profile', 'detail', 'new', 'edit'].includes(v)) v = 'list';
+  show(v, id);
+});
+try { history.replaceState({ v: 'list', id: null, d: 0 }, ''); } catch (e) {}
+
+function savePay(box) {
+  const s = getSub();
+  if (!s) return;
+  const input = document.getElementById('pay-input');
+  const cents = parseCents(input.value);
+  const err = document.getElementById('pay-error');
+  if (!(cents > 0)) { err.textContent = 'Bitte einen Betrag grösser als 0 eingeben, z. B. 9 oder 9.50.'; return; }
+  const p = s.people.find(x => x.id === box.dataset.pid);
+  addPayment(s, box.dataset.pid, cents);
+  save(); ui.pay = null; rerenderKeepScroll();
+  toast('Zahlung von ' + (p ? p.name : '') + ' erfasst: ' + money(cents));
+}
+function readDraftPeople(d, withId) {
+  return d.people.map((p, i) => {
+    const o = { key: p.key, name: p.name.trim() || ('Person ' + (i + 1)), isMe: p.isMe, email: p.isMe ? '' : (p.email || '').trim(), phone: p.isMe ? '' : (p.phone || '').trim(), channel: p.isMe ? '' : (p.channel || ''), sponsor: p.isMe ? '' : p.sponsor };
+    if (withId && p.id) o.id = p.id;
+    return o;
+  });
+}
+function draftError(d) {
+  const total = parseCents(d.total);
+  if (!d.name.trim()) return 'Bitte einen Namen für den Service eingeben.';
+  if (!(total > 0)) return 'Bitte nur den Betrag eingeben, grösser als 0, z. B. 30 oder 12.90 (ohne "CHF").';
+  if (d.people.length < 2) return 'Es braucht mindestens zwei Personen.';
+  if (d.start && !parseISO(d.start)) return 'Bitte ein gültiges Startdatum wählen.';
+  const bad = d.people.find(p => !p.isMe && (p.email || '').trim() && !/^\S+@\S+\.\S+$/.test(p.email.trim()));
+  if (bad) return 'Die E-Mail-Adresse von ' + pLabel(bad, d.people.indexOf(bad)) + ' sieht nicht richtig aus.';
+  const badp = d.people.find(p => !p.isMe && (p.phone || '').trim() && !normPhone(p.phone, state.settings.cc));
+  if (badp) return 'Die Telefonnummer von ' + pLabel(badp, d.people.indexOf(badp)) + ' sieht nicht richtig aus. Beispiel: 079 123 45 67 oder +41 79 123 45 67.';
+  return dateProblem(d);
+}
+function saveEdit() {
+  const d = ui.draft, err = document.getElementById('d-error'), s = getSub();
+  if (!d || !s) return;
+  const problem = draftError(d);
+  if (problem) { err.textContent = problem; return; }
+  const changed = applyEdit(s, {
+    name: d.name.trim(), logo: d.logo, symbol: d.symbol, color: d.color, period: d.period, totalCents: parseCents(d.total), startDate: d.start, chargeDate: d.charge,
+    auto: d.auto, people: readDraftPeople(d, true), applyCurrent: d.applyCurrent
+  });
+  save();
+  goBack('detail', s.id);
+  toast(changed ? 'Änderungen gespeichert' : 'Keine Änderungen');
+}
+function saveNew() {
+  const d = ui.draft, err = document.getElementById('d-error');
+  if (!d) return;
+  if (d.editId) return saveEdit();
+  const problem = draftError(d);
+  if (problem) { err.textContent = problem; return; }
+  const sub = createSub({
+    name: d.name.trim(), logo: d.logo, symbol: d.symbol, color: d.color, period: d.period, totalCents: parseCents(d.total), startDate: d.start || todayISO(),
+    auto: d.auto, people: readDraftPeople(d, false)
+  });
+  state.subs.unshift(sub);
+  save();
+  replaceTo('detail', sub.id);
+  toast('Abo gespeichert');
+}
+function stepCount(delta) {
+  const d = ui.draft;
+  if (!d) return;
+  const n = Math.min(30, Math.max(2, d.people.length + delta));
+  if (n === d.people.length) return;
+  resizeDraft(d, n);
+  const c = document.getElementById('d-count'); if (c) c.value = n;
+  document.getElementById('d-people').innerHTML = draftPeopleHtml();
+  updateShare();
+}
+
+function handleClick(e) {
+  const el = e.target.closest('[data-act]');
+  if (!el) { if (ui.menu) { ui.menu = false; rerenderKeepScroll(); } return; }
+  const a = el.dataset.act;
+  if (a !== 'menu') ui.menu = false;
+  const pr = ui.prof;
+  if (a === 'open') navTo('detail', el.dataset.id);
+  else if (a === 'tab') goTab(el.dataset.v);
+  else if (a === 'welcome-go') { try { localStorage.setItem(WKEY, '1'); } catch (err) {} show('list'); }
+  else if (a === 'back') goBack('list');
+  else if (a === 'new') { ui.draft = newDraft(); navTo('new'); }
+  else if (a === 'svc') {
+    const d = ui.draft;
+    if (d) { d.name = el.dataset.name; const n = document.getElementById('d-name'); if (n) n.value = d.name; const t = document.getElementById('d-total'); if (t) t.focus(); }
+  }
+  else if (a === 'count-dec') stepCount(-1);
+  else if (a === 'count-inc') stepCount(1);
+  else if (a === 'menu') { ui.menu = !ui.menu; rerenderKeepScroll(); }
+  else if (a === 'sel') { ui.sel = el.dataset.pid; ui.pay = null; ui.compose = null; rerenderKeepScroll(); }
+  else if (a === 'unit') { ui.unit = el.dataset.u; rerenderKeepScroll(); }
+  else if (a === 'theme') { try { localStorage.setItem(THKEY, el.dataset.t); } catch (err) {} applyTheme(el.dataset.t); rerenderKeepScroll(); }
+  else if (a === 'photo-clear') { state.profile.photo = ''; save(); rerenderKeepScroll(); }
+  else if (a === 'logo-clear') { ui.draft.logo = ''; refreshLogo(); }
+  else if (a === 'sym') { ui.draft.symbol = el.dataset.k; ui.draft.logo = ''; refreshLogo(); }
+  else if (a === 'color') { ui.draft.color = el.dataset.c; refreshLogo(); }
+  else if (a === 'pay-open') { ui.pay = el.dataset.pid; ui.sel = el.dataset.pid; rerenderKeepScroll(); }
+  else if (a === 'pay-cancel') { ui.pay = null; rerenderKeepScroll(); }
+  else if (a === 'pay-save') savePay(el.closest('[data-form]'));
+  else if (a === 'remind') { ui.remind = !ui.remind; ui.compose = null; rerenderKeepScroll(); }
+  else if (a === 'undo-ask') { ui.undoId = el.dataset.id; rerenderKeepScroll(); }
+  else if (a === 'undo-no') { ui.undoId = null; rerenderKeepScroll(); }
+  else if (a === 'undo-yes') {
+    const s = getSub();
+    if (s && undoPayment(s, el.dataset.id)) { save(); toast('Zahlung rückgängig gemacht'); }
+    ui.undoId = null; rerenderKeepScroll();
+  }
+  else if (a === 'next-ask') { ui.confirm = 'next'; rerenderKeepScroll(); }
+  else if (a === 'delete-ask') { ui.confirm = 'delete'; rerenderKeepScroll(); }
+  else if (a === 'confirm-cancel') { ui.confirm = null; rerenderKeepScroll(); }
+  else if (a === 'next-yes') {
+    const s = getSub();
+    if (s) { startNextPeriod(s); save(); toast(s.periodNo + '. ' + PERIODS[s.period].unit + ' gestartet'); }
+    ui.confirm = null; ui.pay = null; rerenderKeepScroll();
+  }
+  else if (a === 'delete-yes') {
+    state.subs = state.subs.filter(s => s.id !== ui.id);
+    save(); ui.confirm = null; goBack('list'); toast('Abo gelöscht');
+  }
+  else if (a === 'save-new') saveNew();
+  else if (a === 'date-edit') { ui.editDate = true; rerenderKeepScroll(); }
+  else if (a === 'date-cancel') { ui.editDate = false; rerenderKeepScroll(); }
+  else if (a === 'date-save') {
+    const s = getSub(), v = document.getElementById('edit-charge').value;
+    if (s && s.auto !== false && v && v <= todayISO()) {
+      document.getElementById('date-error').textContent = 'Das Datum muss in der Zukunft liegen, sonst wechselt die Periode sofort. Den automatischen Wechsel kannst du unter "Bearbeiten" ausschalten.';
+      return;
+    }
+    if (s) { setChargeDate(s, v); save(); toast(s.chargeDate ? 'Abbuchung auf ' + fmtDay(s.chargeDate) + ' gesetzt' : 'Abbuchungsdatum entfernt'); }
+    ui.editDate = false; rerenderKeepScroll();
+  }
+  else if (a === 'edit') {
+    const s = getSub();
+    if (s) {
+      ui.draft = {
+        editId: s.id, name: s.name, logo: s.logo || '', symbol: s.symbol || '', color: s.color || '', period: s.period, total: (s.totalCents / 100).toFixed(2),
+        start: s.startDate || '', charge: s.chargeDate || '', auto: s.auto !== false,
+        count: s.people.length, removed: [], applyCurrent: true,
+        people: s.people.map(p => ({ id: p.id, key: p.id, name: p.name, email: p.email || '', phone: p.phone || '', channel: p.channel || '', isMe: p.isMe, sponsor: p.sponsor || '', balance: p.balance }))
+      };
+      navTo('edit', s.id);
+    }
+  }
+  else if (a === 'cancel-edit') { const s = getSub(); goBack('detail', s && s.id); }
+  else if (a === 'draft-add') {
+    const d = ui.draft;
+    if (d && d.people.length < 30) {
+      resizeDraft(d, d.people.length + 1);
+      document.getElementById('d-people').innerHTML = draftPeopleHtml(); updateShare();
+      const ins = document.querySelectorAll('[data-draft="pname"]'); if (ins.length) ins[ins.length - 1].focus();
+    }
+  }
+  else if (a === 'draft-remove') {
+    const d = ui.draft;
+    if (d && d.people.length > 2) {
+      const p = d.people.splice(+el.dataset.i, 1)[0];
+      if (p.id) d.removed.push({ name: p.name.trim() || 'Person', balance: (p.isMe || p.sponsor) ? 0 : p.balance });
+      normalizeDraft(d);
+      document.getElementById('d-people').innerHTML = draftPeopleHtml(); updateShare();
+    }
+  }
+  else if (a === 'compose-open') {
+    const s = getSub(), p = s && s.people.find(x => x.id === el.dataset.pid);
+    if (p) { openCompose(s, p); ui.sel = p.id; rerenderKeepScroll(); const t = document.getElementById('c-text'); if (t) t.focus({ preventScroll: true }); }
+  }
+  else if (a === 'compose-close') { ui.compose = null; rerenderKeepScroll(); }
+  else if (a === 'compose-reset') {
+    const s = getSub(), c = ui.compose, p = s && c && s.people.find(x => x.id === c.pid);
+    if (p) { const ch = c.ch; openCompose(s, p, c.type, c.days); ui.compose.ch = ch; rerenderKeepScroll(); }
+  }
+  else if (a === 'cch') { ui.compose.ch = el.dataset.c; rerenderKeepScroll(); }
+  else if (a === 'compose-sent') {
+    if (el.getAttribute('aria-disabled') === 'true') { e.preventDefault(); toast('Es fehlt noch ' + (ui.compose.ch === 'mail' ? 'die E-Mail-Adresse' : 'die Telefonnummer')); return; }
+    markSent(ui.compose); save();
+    toast('Nachricht geöffnet. Zum Senden in der App bestätigen.');
+  }
+  else if (a === 'copy-msg') {
+    const t = document.getElementById('c-text');
+    if (!t) return;
+    const fail = () => { t.focus(); t.select(); toast('Text markiert, bitte selbst kopieren'); };
+    try { navigator.clipboard.writeText(t.value).then(() => toast('Nachricht kopiert'), fail); } catch (err) { fail(); }
+  }
+  else if (a === 'due-send') {
+    const it = dueItems().find(x => x.key === el.dataset.key);
+    if (it) { ui.id = it.sub.id; navTo('detail', it.sub.id); ui.sel = it.p.id; openCompose(it.sub, it.p, it.type, it.days); ui.compose.key = it.key; rerenderKeepScroll(); }
+  }
+  else if (a === 'due-done') { state.sent[el.dataset.key] = todayISO(); save(); rerenderKeepScroll(); }
+  else if (a === 'notif-on') {
+    try {
+      Notification.requestPermission().then(r => { state.settings.notif = r === 'granted'; save(); rerenderKeepScroll(); toast(r === 'granted' ? 'Mitteilungen eingeschaltet' : 'Der Browser hat Mitteilungen nicht erlaubt'); });
+    } catch (err) { toast('Dieser Browser unterstützt keine Mitteilungen'); }
+  }
+  else if (a === 'notif-off') { state.settings.notif = false; save(); rerenderKeepScroll(); }
+  else if (a === 'tpl-reset') { state.settings.tpl = { subject: DEFAULT_TPL.subject, body: DEFAULT_TPL.body }; save(); rerenderKeepScroll(); toast('Standardvorlage wiederhergestellt'); }
+  else if (a === 'set-ch') { state.settings.defChannel = el.dataset.c; save(); rerenderKeepScroll(); }
+  else if (a === 'set-mode') { state.settings.mode = el.dataset.m; save(); rerenderKeepScroll(); }
+  else if (a === 'friend-toggle') { ui.openFriend = ui.openFriend === el.dataset.key ? null : el.dataset.key; rerenderKeepScroll(); }
+  else if (a === 'filter') { ui.filter = el.dataset.f; rerenderKeepScroll(); }
+  else if (a === 'backup-show') { pr.backup = true; rerenderKeepScroll(); }
+  else if (a === 'backup-hide') { pr.backup = false; rerenderKeepScroll(); }
+  else if (a === 'backup-copy') {
+    const t = document.getElementById('backup-text');
+    const fail = () => { if (t) { t.focus(); t.select(); } toast('Text markiert, bitte selbst kopieren'); };
+    try { navigator.clipboard.writeText(JSON.stringify(state)).then(() => toast('Sicherung kopiert'), fail); } catch (err) { fail(); }
+  }
+  else if (a === 'restore-show') { pr.restore = true; pr.pending = null; pr.err = ''; rerenderKeepScroll(); }
+  else if (a === 'restore-hide' || a === 'restore-no') { pr.restore = false; pr.pending = null; pr.err = ''; rerenderKeepScroll(); }
+  else if (a === 'restore-check') {
+    const raw = document.getElementById('restore-text').value.trim();
+    let obj = null;
+    try { obj = JSON.parse(raw); } catch (err) {}
+    if (!validState(obj)) { pr.err = 'Das ist keine gültige Sicherung. Bitte den ganzen kopierten Text einfügen.'; pr.pending = null; }
+    else { pr.err = ''; pr.pending = obj; }
+    rerenderKeepScroll();
+    const t = document.getElementById('restore-text'); if (t && pr.pending) t.value = raw;
+  }
+  else if (a === 'restore-yes') {
+    if (pr.pending) { state = migrate(pr.pending); save(); toast('Sicherung eingespielt'); }
+    pr.restore = false; pr.pending = null; pr.err = ''; rerenderKeepScroll();
+  }
+  else if (a === 'wipe-ask') { pr.wipe = true; rerenderKeepScroll(); }
+  else if (a === 'wipe-no') { pr.wipe = false; rerenderKeepScroll(); }
+  else if (a === 'wipe-yes') { state = migrate({ subs: [] }); save(); pr.wipe = false; toast('Alle Daten gelöscht'); rerenderKeepScroll(); }
+}
+app.addEventListener('click', handleClick);
+nav.addEventListener('click', handleClick);
+app.addEventListener('keydown', e => {
+  if (e.key !== 'Enter' || e.target.tagName !== 'INPUT' || e.target.type === 'checkbox') return;
+  const box = e.target.closest('[data-form]');
+  if (!box) return;
+  e.preventDefault();
+  if (box.dataset.form === 'pay') savePay(box); else if (box.dataset.form === 'new') saveNew();
+});
+app.addEventListener('toggle', e => {
+  const k = e.target && e.target.dataset && e.target.dataset.d;
+  if (k) ui.open[k] = e.target.open;
+}, true);
+
+app.addEventListener('input', e => {
+  const dt = e.target.dataset;
+  if (dt.c) {
+    const c = ui.compose, s = getSub(), p = s && c && s.people.find(x => x.id === c.pid);
+    if (!c || !p) return;
+    if (dt.c === 'text') c.text = e.target.value;
+    else if (dt.c === 'subject') c.subject = e.target.value;
+    else if (dt.c === 'contact') { if (c.ch === 'mail') p.email = e.target.value.trim(); else p.phone = e.target.value.trim(); save(); }
+    const go = document.getElementById('compose-go'), link = composeLink(), hint = document.getElementById('c-hint');
+    if (go) { if (link) { go.setAttribute('href', link); go.removeAttribute('aria-disabled'); } else { go.removeAttribute('href'); go.setAttribute('aria-disabled', 'true'); } }
+    if (hint) hint.textContent = link ? '' : (c.ch === 'mail' ? 'Bitte eine gültige E-Mail-Adresse eintragen.' : 'Bitte eine gültige Telefonnummer eintragen, z. B. 079 123 45 67 oder +41 79 123 45 67.');
+    return;
+  }
+  if (dt.set) {
+    const st = state.settings, v = e.target.value;
+    if (dt.set === 'tplSubject') st.tpl.subject = v;
+    else if (dt.set === 'tplBody') { if (v.trim()) st.tpl.body = v; }
+    else if (dt.set === 'cc') st.cc = v.replace(/\D/g, '') || '41';
+    else if (dt.set === 'soonDays') st.soonDays = Math.min(60, Math.max(0, parseInt(v, 10) || 0));
+    else if (dt.set === 'overdueDays') st.overdueDays = Math.min(365, Math.max(1, parseInt(v, 10) || 1));
+    save();
+    return;
+  }
+  if (e.target.dataset.prof === 'name') { state.profile.name = e.target.value; save(); return; }
+  const t = e.target, k = t.dataset.draft, d = ui.draft;
+  if (!k || !d) return;
+  if (k === 'svcsearch') {
+    const q = t.value.trim().toLowerCase();
+    let any = false;
+    document.querySelectorAll('[data-svc]').forEach(b => { const hit = !q || b.dataset.svc.toLowerCase().includes(q); b.hidden = !hit; if (hit) any = true; });
+    const none = document.getElementById('svc-none'); if (none) none.hidden = any;
+    return;
+  }
+  if (k === 'name') { d.name = t.value; if (!d.logo) refreshLogo(); }
+  else if (k === 'total') { d.total = t.value; updateShare(); }
+  else if (k === 'start') { d.start = t.value; updateShare(); }
+  else if (k === 'charge') d.charge = t.value;
+  else if (k === 'pname') { d.people[+t.dataset.i].name = t.value; refreshSponsorLabels(); }
+  else if (k === 'pemail') d.people[+t.dataset.i].email = t.value;
+  else if (k === 'pphone') d.people[+t.dataset.i].phone = t.value;
+  else if (k === 'count') {
+    const n = parseInt(t.value, 10);
+    if (n >= 2 && n <= 30) {
+      resizeDraft(d, n);
+      document.getElementById('d-people').innerHTML = draftPeopleHtml();
+      updateShare();
+    }
+  }
+});
+app.addEventListener('change', e => {
+  if (e.target.dataset.set === 'soonOn' || e.target.dataset.set === 'overdueOn') { state.settings[e.target.dataset.set] = e.target.checked; save(); return; }
+  if (e.target.dataset.prof === 'photo') {
+    const f = e.target.files && e.target.files[0];
+    readImage(f, 256, true, url => { state.profile.photo = url; save(); rerenderKeepScroll(); });
+    return;
+  }
+  if (e.target.dataset.draft === 'logofile') {
+    const f = e.target.files && e.target.files[0];
+    readImage(f, 160, false, url => { if (ui.draft) { ui.draft.logo = url; ui.draft.symbol = ''; refreshLogo(); } });
+    return;
+  }
+  const t = e.target, k = t.dataset.draft, d = ui.draft;
+  if (!k || !d) return;
+  if (k === 'period') { d.period = t.value; updateShare(); }
+  else if (k === 'start') { d.start = t.value; updateShare(); }
+  else if (k === 'charge') d.charge = t.value;
+  else if (k === 'apply') d.applyCurrent = t.checked;
+  else if (k === 'auto') d.auto = t.checked;
+  else if (k === 'count') {
+    const n = Math.min(30, Math.max(2, parseInt(t.value, 10) || 2));
+    t.value = n;
+    if (n !== d.people.length) {
+      resizeDraft(d, n);
+      document.getElementById('d-people').innerHTML = draftPeopleHtml();
+      updateShare();
+    }
+  } else if (k === 'pme') {
+    d.people[+t.dataset.i].isMe = t.checked;
+    normalizeDraft(d);
+    document.getElementById('d-people').innerHTML = draftPeopleHtml();
+  } else if (k === 'pchannel') {
+    d.people[+t.dataset.i].channel = t.value;
+  } else if (k === 'psponsor') {
+    d.people[+t.dataset.i].sponsor = t.value;
+    normalizeDraft(d);
+    document.getElementById('d-people').innerHTML = draftPeopleHtml();
+  }
+});
+
+// Täglich aktuell: Beim Öffnen, beim Zurückkehren zur Seite und um Mitternacht werden fällige Perioden gestartet.
+function rollAll() {
+  const today = todayISO(), msgs = [];
+  state.subs.forEach(s => {
+    const n = autoRollSub(s, today);
+    if (n) msgs.push(s.name + ': ' + s.periodNo + '. ' + PERIODS[s.period].unit + (n > 1 ? ' (' + n + ' Wechsel nachgeholt)' : ' automatisch gestartet'));
+  });
+  if (msgs.length) save();
+  return msgs;
+}
+let lastDay = todayISO();
+function tick() {
+  const today = todayISO();
+  if (today === lastDay) return;
+  // Während einer Eingabe nicht dazwischenfunken, der nächste Takt versucht es erneut.
+  if (ui.view === 'new' || ui.view === 'edit' || ui.pay || ui.confirm || ui.editDate || ui.undoId) return;
+  lastDay = today;
+  const m = rollAll();
+  rerenderKeepScroll();
+  notifyDue();
+  if (m.length) toast(m.join(' · '));
+}
+setInterval(tick, 30000);
+document.addEventListener('visibilitychange', () => { if (!document.hidden) tick(); });
+
+const startMsgs = rollAll();
+render();
+notifyDue();
+if (startMsgs.length) toast(startMsgs.join(' · '));
+</script>
+
+<script>if ("serviceWorker" in navigator && location.protocol.startsWith("http")) { window.addEventListener("load", function () { navigator.serviceWorker.register("sw.js").catch(function () {}); }); }</script>
+</body>
+</html>
