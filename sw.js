@@ -1,12 +1,42 @@
-// Speichert die App auf dem Gerät, damit sie auch ohne Internet startet.
-const CACHE = 'abo-splitter-v8';
-const FILES = ['./', 'index.html', 'manifest.webmanifest', 'icons/icon-180.png', 'icons/icon-192.png', 'icons/icon-512.png'];
-self.addEventListener('install', e => { e.waitUntil(caches.open(CACHE).then(c => c.addAll(FILES)).then(() => self.skipWaiting())); });
-self.addEventListener('activate', e => {
-  e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== CACHE).map(k => caches.delete(k)))).then(() => self.clients.claim()));
+// Service Worker der Ausleseapp: legt die App-Dateien im Zwischenspeicher ab,
+// damit sie auch ohne Netz startet (z. B. im Keller oder auf der Baustelle).
+// Bei jeder Änderung an den Dateien die Versionsnummer erhöhen.
+const VERSION = 'ausleseapp-v1';
+const FILES = [
+  './',
+  './index.html',
+  './manifest.webmanifest',
+  './icons/icon-192.png',
+  './icons/icon-512.png',
+  './icons/icon-maskable-512.png',
+  './icons/apple-touch-icon.png',
+  './icons/favicon.png'
+];
+
+self.addEventListener('install', event => {
+  event.waitUntil(caches.open(VERSION).then(c => c.addAll(FILES)));
+  self.skipWaiting();
 });
-// Zuerst das Netz (neue Version), sonst der gespeicherte Stand.
-self.addEventListener('fetch', e => {
-  if (e.request.method !== 'GET' || new URL(e.request.url).origin !== location.origin) return;
-  e.respondWith(fetch(e.request).then(r => { const c = r.clone(); caches.open(CACHE).then(x => x.put(e.request, c)); return r; }).catch(() => caches.match(e.request).then(r => r || caches.match('index.html'))));
+
+self.addEventListener('activate', event => {
+  event.waitUntil(
+    caches.keys()
+      .then(keys => Promise.all(keys.filter(k => k !== VERSION).map(k => caches.delete(k))))
+      .then(() => self.clients.claim())
+  );
+});
+
+// Zuerst das Netz versuchen (damit Updates ankommen), sonst den Zwischenspeicher.
+self.addEventListener('fetch', event => {
+  const req = event.request;
+  if (req.method !== 'GET' || new URL(req.url).origin !== location.origin) return;
+  event.respondWith(
+    fetch(req)
+      .then(res => {
+        const copy = res.clone();
+        caches.open(VERSION).then(c => c.put(req, copy));
+        return res;
+      })
+      .catch(() => caches.match(req).then(hit => hit || caches.match('./index.html')))
+  );
 });
